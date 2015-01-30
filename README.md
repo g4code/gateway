@@ -8,7 +8,7 @@ gateway
 Via Composer
 
 ```sh
-composer require g4/data-mapper
+composer require g4/gateway
 ```
 
 ## Usage
