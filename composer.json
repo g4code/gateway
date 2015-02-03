@@ -29,7 +29,8 @@
     "phpunit/phpunit": "3.7.*"
   },
   "require": {
-    "php"         : ">=5.4",
-    "g4/constants": "*"
+    "php"                    : ">=5.4",
+    "g4/constants"           : "*",
+    "zendframework/zend-http": "2.3.*"
   }
 }
