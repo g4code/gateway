@@ -41,8 +41,11 @@ abstract class GatewayAbstract implements GatewayInterface
 
     public function execute()
     {
+        $this->shouldSetParameterPost()
+            ? $this->httpClient->setParameterPost($this->getHttpQueryParams())
+            : $this->httpClient->setParameterGet($this->getHttpQueryParams());
+
         $this->httpClient
-            ->setParameterGet($this->getHttpQueryParams())
             ->setMethod($this->getHttpMethod())
             ->send();
 
@@ -137,5 +140,13 @@ abstract class GatewayAbstract implements GatewayInterface
 
         $headers = $this->httpClient->getRequest()->getHeaders();
         $headers->addHeaders($this->options->getHeaders());
+    }
+
+    /**
+     * @return boolean
+     */
+    private function shouldSetParameterPost()
+    {
+        return in_array($this->getHttpMethod(), [Http::METHOD_POST, Http::METHOD_PUT]);
     }
 }
