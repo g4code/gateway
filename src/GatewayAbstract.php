@@ -7,6 +7,8 @@ use G4\Constants\Http;
 abstract class GatewayAbstract implements GatewayInterface
 {
 
+    const TIMEOUT = 60;
+
     /**
      * @var \Zend\Http\Client
      */
@@ -137,6 +139,9 @@ abstract class GatewayAbstract implements GatewayInterface
         $this->httpClient = new \Zend\Http\Client();
         $this->httpClient->setAdapter('\Zend\Http\Client\Adapter\Curl');
         $this->httpClient->setUri($this->buildUri());
+        $this->httpClient->setOptions([
+            'timeout' => self::TIMEOUT
+        ]);
 
         $headers = $this->httpClient->getRequest()->getHeaders();
         $headers->addHeaders($this->options->getHeaders());
