@@ -100,7 +100,7 @@ abstract class GatewayAbstract implements GatewayInterface
     public function isOk()
     {
         return $this->getResponseCode() >= Http::CODE_200
-        && $this->getResponseCode() < Http::CODE_300;
+            && $this->getResponseCode() < Http::CODE_300;
     }
 
     /**
