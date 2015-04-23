@@ -12,6 +12,6 @@ abstract class GatewayHttpDeleteAbstract extends GatewayAbstract
      */
     public function getHttpMethod()
     {
-        return Http::METHOD_PUT;
+        return Http::METHOD_DELETE;
     }
 }
