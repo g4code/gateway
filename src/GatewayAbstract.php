@@ -58,7 +58,7 @@ abstract class GatewayAbstract implements GatewayInterface
      */
     public function getParams($key = null)
     {
-        return $key === null
+       return $key === null
             ? $this->params
             : $this->getParamsByKey($key);
 
@@ -137,11 +137,7 @@ abstract class GatewayAbstract implements GatewayInterface
         $this->httpClient = new \Zend\Http\Client();
         $this->httpClient->setAdapter('\Zend\Http\Client\Adapter\Curl');
         $this->httpClient->setUri($this->buildUri());
-
-        $this->setOptions();
-
-        $headers = $this->httpClient->getRequest()->getHeaders();
-        $headers->addHeaders($this->options->getHeaders());
+        $this->httpClient->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
     }
 
     /**
@@ -150,10 +146,5 @@ abstract class GatewayAbstract implements GatewayInterface
     private function shouldSetParameterPost()
     {
         return in_array($this->getHttpMethod(), [Http::METHOD_POST, Http::METHOD_PUT]);
-    }
-
-    private function setOptions()
-    {
-        $this->httpClient->setOptions( $this->options->getParams() );
     }
 }

@@ -20,23 +20,13 @@ class Options
      */
     private $resourceKey;
 
-    /**
-     * @var array
-     */
-    private $params;
-
-
-    public function __construct()
-    {
-        $this->params = [];
-    }
 
     /**
      * @return array:
      */
     public function getHeaders()
     {
-        return $this->headers;
+        return array_filter($this->headers);
     }
 
     /**
@@ -53,28 +43,6 @@ class Options
     public function getUri()
     {
         return $this->uri;
-    }
-
-    public function hasParam($name)
-    {
-        return isset($this->params[$name]);
-    }
-
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function getParam($name)
-    {
-        return $this->hasParameter($name) ? $this->params[$name] : null;
-    }
-
-    /**
-     * @return array
-     */
-    public function getParams()
-    {
-        return $this->params;
     }
 
     /**
@@ -104,29 +72,6 @@ class Options
     public function setUri($uri)
     {
         $this->uri = $uri;
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     * @return Options
-     */
-    public function setParam($name, $value)
-    {
-        $this->params[$name] = $value;
-        return $this;
-    }
-
-    /**
-     * @param array $params
-     * @return Options
-     */
-    public function setParams($params)
-    {
-        foreach ($params as $name => $value) {
-            $this->setParam($name, $value);
-        }
         return $this;
     }
 }
