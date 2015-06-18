@@ -52,6 +52,11 @@ abstract class GatewayAbstract implements GatewayInterface
         $this->response = $this->httpClient->getResponse();
     }
 
+    public function getIdentifier()
+    {
+        return $this->buildUri() . '?' . http_build_query($this->getHttpQueryParams());
+    }
+
     /**
      * @param string $key
      * @return mixed
