@@ -5,6 +5,8 @@ namespace G4\Gateway;
 class Options
 {
 
+    const DEFAULT_TIMEOUT = 10;
+
     /**
      * @var array
      */
@@ -19,6 +21,11 @@ class Options
      * @var string
      */
     private $resourceKey;
+
+    /**
+     * @var int
+     */
+    private $timeout;
 
 
     /**
@@ -35,6 +42,16 @@ class Options
     public function getResourceKey()
     {
         return $this->resourceKey;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout === null
+            ? self::DEFAULT_TIMEOUT
+            : $this->timeout;
     }
 
     /**
@@ -62,6 +79,16 @@ class Options
     public function setResourceKey($resourceKey)
     {
         $this->resourceKey = $resourceKey;
+        return $this;
+    }
+
+    /**
+     * @param int $timeout
+     * @return \G4\Gateway\Options
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
         return $this;
     }
 
