@@ -86,7 +86,10 @@ abstract class GatewayAbstract implements GatewayInterface
     public function getResponseBody()
     {
         if (!isset($this->responseBody)) {
-            $this->responseBody = json_decode($this->response->getBody(), true);
+            $decoded = json_decode($this->response->getBody(), true);
+            $this->responseBody = $decoded
+                ? $decoded
+                : $this->response->getBody();
         }
         return $this->responseBody;
     }
