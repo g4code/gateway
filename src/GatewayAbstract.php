@@ -52,6 +52,17 @@ abstract class GatewayAbstract implements GatewayInterface
         $this->response = $this->httpClient->getResponse();
     }
 
+    /**
+     * @return \Zend\Http\Client
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * @return string
+     */
     public function getIdentifier()
     {
         return $this->buildUri() . '?' . http_build_query($this->getHttpQueryParams());
