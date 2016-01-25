@@ -156,7 +156,11 @@ abstract class GatewayAbstract implements GatewayInterface
         $this->httpClient = new \Zend\Http\Client();
         $this->httpClient->setAdapter('\Zend\Http\Client\Adapter\Curl');
         $this->httpClient->setEncType(\Zend\Http\Client::ENC_URLENCODED);
-        $this->httpClient->setOptions(['timeout' => $this->options->getTimeout()]);
+        $this->httpClient->setOptions([
+            'timeout' => $this->options->getTimeout(),
+            'curloptions' => [
+                CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()  !== null ? $this->options->getSslVerifyPeer() : true],
+        ]);
         $this->httpClient->setUri($this->buildUri());
         $this->httpClient->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
     }
