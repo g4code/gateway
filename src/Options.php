@@ -23,6 +23,11 @@ class Options
     private $resourceKey;
 
     /**
+     * @var boolean
+     */
+    private $sslVerifyPeer;
+
+    /**
      * @var int
      */
     private $timeout;
@@ -42,6 +47,11 @@ class Options
     public function getResourceKey()
     {
         return $this->resourceKey;
+    }
+
+    public function getSslVerifyPeer()
+    {
+        return $this->sslVerifyPeer;
     }
 
     /**
@@ -79,6 +89,16 @@ class Options
     public function setResourceKey($resourceKey)
     {
         $this->resourceKey = $resourceKey;
+        return $this;
+    }
+
+    /**
+     * @param boolean $value
+     * @return \G4\Gateway\Options
+     */
+    public function setSslVerifyPeer($value)
+    {
+        $this->sslVerifyPeer = $value;
         return $this;
     }
 
