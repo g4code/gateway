@@ -31,7 +31,7 @@ class Http
 
     public function put()
     {
-        return $this->execute(HttpConst::METHOD_PUT;
+        return $this->execute(HttpConst::METHOD_PUT);
     }
 
     public function setServiceName($serviceName)
