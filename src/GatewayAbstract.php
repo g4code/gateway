@@ -2,7 +2,7 @@
 
 namespace G4\Gateway;
 
-use G4\Constants\Http;
+use G4\Constants\Http as HttpConst;
 
 abstract class GatewayAbstract implements GatewayInterface
 {
@@ -46,6 +46,7 @@ abstract class GatewayAbstract implements GatewayInterface
             : $this->httpClient->setParameterGet($this->getHttpQueryParams());
 
         $this->httpClient
+            ->setUri($this->buildUri())
             ->setMethod($this->getHttpMethod())
             ->send();
 
@@ -118,8 +119,8 @@ abstract class GatewayAbstract implements GatewayInterface
      */
     public function isOk()
     {
-        return $this->getResponseCode() >= Http::CODE_200
-            && $this->getResponseCode() < Http::CODE_300;
+        return $this->getResponseCode() >= HttpConst::CODE_200
+            && $this->getResponseCode() < HttpConst::CODE_300;
     }
 
     /**
@@ -161,7 +162,6 @@ abstract class GatewayAbstract implements GatewayInterface
             'curloptions' => [
                 CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()  !== null ? $this->options->getSslVerifyPeer() : true],
         ]);
-        $this->httpClient->setUri($this->buildUri());
         $this->httpClient->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
     }
 
@@ -170,6 +170,6 @@ abstract class GatewayAbstract implements GatewayInterface
      */
     private function shouldSetParameterPost()
     {
-        return in_array($this->getHttpMethod(), [Http::METHOD_POST, Http::METHOD_PUT]);
+        return in_array($this->getHttpMethod(), [HttpConst::METHOD_POST, HttpConst::METHOD_PUT]);
     }
 }
