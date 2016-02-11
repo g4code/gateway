@@ -11,4 +11,5 @@ vendor
 
 .buildpath
 .project
-.settings
+.settings/*
+.idea/*
