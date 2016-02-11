@@ -23,7 +23,9 @@ class Gateway extends GatewayAbstract
 
     public function getHttpQueryParams()
     {
-        return $this->httpQueryParams;
+        return $this->httpQueryParams === null
+            ? []
+            : $this->httpQueryParams;
     }
 
     public function setServiceName($serviceName)
