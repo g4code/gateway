@@ -9,9 +9,9 @@ class Http
 
     private $gateway;
 
-    public function __construct()
+    public function __construct(Options $options)
     {
-        $this->gateway = new Gateway();
+        $this->gateway = new Gateway($options);
     }
 
     public function delete()
