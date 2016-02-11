@@ -17,7 +17,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $this->options = null;
     }
 
-    public function test()
+    public function testHeaders()
     {
 
     }
