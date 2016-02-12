@@ -2,36 +2,41 @@
 
 namespace G4\Gateway;
 
-use \G4\Constants\Http as HttpConst;
+use G4\Gateway\HttpClient;
+
 
 class Http
 {
 
-    private $gateway;
+    /**
+     * @var HttpClient
+     */
+    private $httpClient;
 
-    public function __construct(Options $options)
+
+    public function __construct(HttpClient $httpClient)
     {
-        $this->gateway = new Gateway($options);
+        $this->httpClient = $httpClient;
     }
 
     public function delete()
     {
-        return $this->execute(HttpConst::METHOD_DELETE);
+        return $this->send(HttpConst::METHOD_DELETE);
     }
 
     public function get()
     {
-        return $this->execute(HttpConst::METHOD_GET);
+        return $this->send(HttpConst::METHOD_GET);
     }
 
     public function post()
     {
-        return $this->execute(HttpConst::METHOD_POST);
+        return $this->send(HttpConst::METHOD_POST);
     }
 
     public function put()
     {
-        return $this->execute(HttpConst::METHOD_PUT);
+        return $this->send(HttpConst::METHOD_PUT);
     }
 
     public function setServiceName($serviceName)
@@ -46,7 +51,7 @@ class Http
         return $this;
     }
 
-    private function execute($method)
+    private function send($method)
     {
         $this->gateway->setHttpMethod($method);
         $this->gateway->execute();
