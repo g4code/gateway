@@ -51,7 +51,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
 
     public function testSslVerifyPeer()
     {
-        $this->assertNull($this->options->getSslVerifyPeer());
+        $this->assertTrue($this->options->getSslVerifyPeer());
 
         $this->options->setSslVerifyPeer(true);
 

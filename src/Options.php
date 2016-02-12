@@ -51,7 +51,9 @@ class Options
 
     public function getSslVerifyPeer()
     {
-        return $this->sslVerifyPeer;
+        return $this->sslVerifyPeer !== null
+            ? $this->sslVerifyPeer
+            : true;
     }
 
     /**
