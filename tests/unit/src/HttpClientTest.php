@@ -21,6 +21,17 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->client = new HttpClient($this->optionsMock);
+    }
+
+    protected function tearDown()
+    {
+        $this->optionsMock = null;
+        $this->client = null;
+    }
+
+    public function testGetClient()
+    {
         $this->optionsMock
             ->expects($this->once())
             ->method('getTimeout')
@@ -36,17 +47,6 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
             ->method('getHeaders')
             ->willReturn([]);
 
-        $this->client = new HttpClient($this->optionsMock);
-    }
-
-    protected function tearDown()
-    {
-        $this->optionsMock = null;
-        $this->client = null;
-    }
-
-    public function testGetClient()
-    {
         $this->assertInstanceOf('\Zend\Http\Client', $this->client->getClient());
     }
 
@@ -89,6 +89,43 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
             ->method('__toString')
             ->willReturn('GET');
 
-        $this->assertInstanceOf('\G4\Gateway\Response', $this->client->send($urlMock, $methodMock));
+        $responseMock = $this->getMockBuilder('\Zend\Http\Response')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $clientMock = $this->getMockBuilder('\Zend\Http\Client')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $clientMock
+            ->expects($this->once())
+            ->method('setUri')
+            ->willReturnSelf();
+
+        $clientMock
+            ->expects($this->once())
+            ->method('setMethod')
+            ->willReturnSelf();
+
+        $clientMock
+            ->expects($this->once())
+            ->method('send');
+
+        $clientMock
+            ->expects($this->once())
+            ->method('getResponse')
+            ->willReturn($responseMock);
+
+        $httpClientMock = $this->getMockBuilder('\G4\Gateway\HttpClient')
+            ->disableOriginalConstructor()
+            ->setMethods(['getClient'])
+            ->getMock();
+
+        $httpClientMock
+            ->expects($this->exactly(3))
+            ->method('getClient')
+            ->willReturn($clientMock);
+
+        $this->assertInstanceOf('\G4\Gateway\Response', $httpClientMock->send($urlMock, $methodMock));
     }
 }
