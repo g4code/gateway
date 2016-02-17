@@ -13,6 +13,16 @@ composer require g4/gateway
 
 ## Usage
 
+```php
+
+use G4\Gateway\Options;
+
+$options = new Options();
+$options
+    ->
+
+```
+
 ## Development
 
 ### Install dependencies

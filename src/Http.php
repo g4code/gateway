@@ -3,58 +3,75 @@
 namespace G4\Gateway;
 
 use G4\Gateway\HttpClient;
+use G4\Gateway\HttpMethod;
+use G4\Gateway\Params;
 
 
 class Http
 {
 
     /**
-     * @var HttpClient
+     * @var Options
      */
-    private $httpClient;
+    private $options;
+
+    /**
+     * @var string
+     */
+    private $uri;
+
+    /**
+     * @var string
+     */
+    private $serviceName;
 
 
-    public function __construct(HttpClient $httpClient)
+    public function __construct($uri, Options $options)
     {
-        $this->httpClient = $httpClient;
+        $this->url     = $uri;
+        $this->options = $options;
     }
 
-    public function delete()
+    public function delete(array $params = null)
     {
-        return $this->send(HttpConst::METHOD_DELETE);
+        return $this
+            ->send(HttpMethod::DELETE, $params);
     }
 
-    public function get()
+    public function get(array $params = null)
     {
-        return $this->send(HttpConst::METHOD_GET);
+        return $this
+            ->send(HttpMethod::GET, $params);
     }
 
-    public function post()
+    public function makeClient($url, Options $options)
     {
-        return $this->send(HttpConst::METHOD_POST);
+        return new HttpClient($this->options);
     }
 
-    public function put()
+    public function post(array $params = null)
     {
-        return $this->send(HttpConst::METHOD_PUT);
+        return $this
+            ->send(HttpMethod::POST, $params);
+    }
+
+    public function put(array $params = null)
+    {
+        return $this
+            ->send(HttpMethod::PUT, $params);
     }
 
     public function setServiceName($serviceName)
     {
-        $this->gateway->setServiceName($serviceName);
-        return $this;
+        $this->serviceName = $serviceName;
     }
 
-    public function setHttpQueryParams($httpQueryParams)
+    private function send($methodName, $params)
     {
-        $this->gateway->setHttpQueryParams($httpQueryParams);
-        return $this;
-    }
+        $client = $this->makeClient();
+        $method = new HttpMethod($methodName);
+        $url    = new Url($this->uri, $this->serviceName, new Params($params));
 
-    private function send($method)
-    {
-        $this->gateway->setHttpMethod($method);
-        $this->gateway->execute();
-        return $this->gateway;
+        return $client->send($url, $method);
     }
 }

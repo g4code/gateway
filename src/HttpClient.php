@@ -3,7 +3,8 @@
 namespace G4\Gateway;
 
 use G4\Gateway\Options;
-use G4\Gateway\Method;
+use G4\Gateway\Params;
+use G4\Gateway\HttpMethod;
 
 class HttpClient
 {
@@ -14,42 +15,32 @@ class HttpClient
     private $client;
 
     /**
-     * @var Method
-     */
-    private $method;
-
-    /**
      * @var Options
      */
     private $options;
 
 
 
+
     public function __construct(Options $options)
     {
         $this->options = $options;
-        $this->client = $this->makeClient();
+        $this->client  = $this->makeClient();
     }
 
-    public function send()
+    public function send(Url $url, HttpMethod $method)
     {
-        $this->method->isPost()
-            ? $this->client->setParameterPost($this->getHttpQueryParams())
-            : $this->client->setParameterGet($this->getHttpQueryParams());
+        $method->isPost()
+            ? $this->client->setParameterPost((string) $url->getParams())
+            : $this->client->setParameterGet((string) $url->getParams());
 
         $this->client
-            ->setUri($this->buildUri())
-            ->setMethod($this->method)
+            ->setUri($url->getUri())
+            ->setMethod((string) $method)
             ->send();
 
-        $response = $this->client->getResponse();
+        return new Response($this->client->getResponse(), $url);
     }
-
-    public function setMethod(Method $method)
-    {
-        $this->method = $method;
-    }
-
 
     public function makeClient()
     {

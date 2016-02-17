@@ -12,15 +12,6 @@ class Options
      */
     private $headers;
 
-    /**
-     * @var string
-     */
-    private $uri;
-
-    /**
-     * @var string
-     */
-    private $resourceKey;
 
     /**
      * @var boolean
@@ -33,6 +24,11 @@ class Options
     private $timeout;
 
 
+    public function __construct()
+    {
+        $this->headers = [];
+    }
+
     /**
      * @return array:
      */
@@ -42,13 +38,8 @@ class Options
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getResourceKey()
-    {
-        return $this->resourceKey;
-    }
-
     public function getSslVerifyPeer()
     {
         return $this->sslVerifyPeer !== null
@@ -67,30 +58,13 @@ class Options
     }
 
     /**
-     * @return string
+     * @param $key
+     * @param $value
+     * @return $this
      */
-    public function getUri()
+    public function addHeader($key, $value)
     {
-        return $this->uri;
-    }
-
-    /**
-     * @param array $headers
-     * @return Options
-     */
-    public function setHeaders(array $headers)
-    {
-        $this->headers = $headers;
-        return $this;
-    }
-
-    /**
-     * @param string $resourceKey
-     * @return Options
-     */
-    public function setResourceKey($resourceKey)
-    {
-        $this->resourceKey = $resourceKey;
+        $this->headers[$key] = $value;
         return $this;
     }
 
@@ -111,16 +85,6 @@ class Options
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
-        return $this;
-    }
-
-    /**
-     * @param string $uri
-     * @return Options
-     */
-    public function setUri($uri)
-    {
-        $this->uri = $uri;
         return $this;
     }
 }
