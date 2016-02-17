@@ -44,7 +44,7 @@ class Http
             ->send(HttpMethod::GET, $params);
     }
 
-    public function makeClient($url, Options $options)
+    public function makeClient()
     {
         return new HttpClient($this->options);
     }

@@ -22,31 +22,9 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
 
     public function testHeaders()
     {
-        $data = [
-            'Accept' => 'application/json',
-        ];
+        $this->options->addHeader('Accept', 'application/json');
 
-        $this->options->setHeaders($data);
-
-        $this->assertEquals($data, $this->options->getHeaders());
-    }
-
-    public function testUri()
-    {
-        $data = 'http://google.com';
-
-        $this->options->setUri($data);
-
-        $this->assertEquals($data, $this->options->getUri());
-    }
-
-    public function testResourceKey()
-    {
-        $data = 'resource';
-
-        $this->options->setResourceKey($data);
-
-        $this->assertEquals($data, $this->options->getResourceKey());
+        $this->assertEquals(['Accept' => 'application/json'], $this->options->getHeaders());
     }
 
     public function testSslVerifyPeer()
