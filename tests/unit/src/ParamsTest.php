@@ -30,6 +30,11 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $this->params = null;
     }
 
+    public function testToArray()
+    {
+        $this->assertEquals($this->data, $this->params->toArray());
+    }
+
     public function testWithValues()
     {
         $this->assertEquals('id=123&title=this+is+title', (string) $this->params);

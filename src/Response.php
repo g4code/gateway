@@ -33,10 +33,9 @@ class Response
     public function getBody()
     {
         if (!isset($this->body)) {
-            $decoded = json_decode($this->clientResponse->getBody(), true);
-            $this->body = $decoded
-                ? $decoded
-                : $this->response->getBody();
+            $body = $this->clientResponse->getBody();
+            $decoded = json_decode($body, true);
+            $this->body = $decoded ? $decoded : $body;
         }
         return $this->body;
     }
