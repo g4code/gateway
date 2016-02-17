@@ -25,38 +25,40 @@ class HttpClient
     public function __construct(Options $options)
     {
         $this->options = $options;
-        $this->client  = $this->makeClient();
+    }
+
+    public function getClient()
+    {
+        if (! $this->client instanceof \Zend\Http\Client) {
+
+            $this->client = new \Zend\Http\Client();
+            $this->client
+                ->setAdapter('\Zend\Http\Client\Adapter\Curl')
+                ->setEncType(\Zend\Http\Client::ENC_URLENCODED)
+                ->setOptions([
+                    'timeout' => $this->options->getTimeout(),
+                    'curloptions' => [
+                        CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()
+                    ],
+                ]);
+
+            $this->client->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
+        }
+
+        return $this->client;
     }
 
     public function send(Url $url, HttpMethod $method)
     {
         $method->isPost()
-            ? $this->client->setParameterPost((string) $url->getParams())
-            : $this->client->setParameterGet((string) $url->getParams());
+            ? $this->getClient()->setParameterPost($url->getParams()->toArray())
+            : $this->getClient()->setParameterGet($url->getParams()->toArray());
 
-        $this->client
+        $this->getClient()
             ->setUri($url->getUri())
             ->setMethod((string) $method)
             ->send();
 
-        return new Response($this->client->getResponse(), $url);
-    }
-
-    public function makeClient()
-    {
-        $client = new \Zend\Http\Client();
-        $client
-            ->setAdapter('\Zend\Http\Client\Adapter\Curl')
-            ->setEncType(\Zend\Http\Client::ENC_URLENCODED)
-            ->setOptions([
-                'timeout' => $this->options->getTimeout(),
-                'curloptions' => [
-                    CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()
-                ],
-            ]);
-
-        $client->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
-
-        return $client;
+        return new Response($this->getClient()->getResponse(), $url);
     }
 }

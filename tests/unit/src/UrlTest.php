@@ -49,4 +49,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->paramsMock, $this->url->getParams());
     }
+
+    public function testIfUriIsNotAString()
+    {
+        $this->setExpectedException('\Exception', 'Uri is not a string!', 101);
+
+        new Url(123, null, $this->paramsMock);
+    }
 }
