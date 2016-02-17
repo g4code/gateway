@@ -28,20 +28,18 @@ class Http
 
     public function __construct($uri, Options $options)
     {
-        $this->url     = $uri;
+        $this->uri     = $uri;
         $this->options = $options;
     }
 
     public function delete(array $params = null)
     {
-        return $this
-            ->send(HttpMethod::DELETE, $params);
+        return $this->send(HttpMethod::DELETE, $params);
     }
 
     public function get(array $params = null)
     {
-        return $this
-            ->send(HttpMethod::GET, $params);
+        return $this->send(HttpMethod::GET, $params);
     }
 
     public function makeClient()
@@ -51,14 +49,12 @@ class Http
 
     public function post(array $params = null)
     {
-        return $this
-            ->send(HttpMethod::POST, $params);
+        return $this->send(HttpMethod::POST, $params);
     }
 
     public function put(array $params = null)
     {
-        return $this
-            ->send(HttpMethod::PUT, $params);
+        return $this->send(HttpMethod::PUT, $params);
     }
 
     public function setServiceName($serviceName)
