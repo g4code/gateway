@@ -60,6 +60,7 @@ class Http
     public function setServiceName($serviceName)
     {
         $this->serviceName = $serviceName;
+        return $this;
     }
 
     private function send($methodName, $params)
