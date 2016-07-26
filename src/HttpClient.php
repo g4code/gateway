@@ -5,6 +5,7 @@ namespace G4\Gateway;
 use G4\Gateway\Options;
 use G4\Gateway\Params;
 use G4\Gateway\HttpMethod;
+use G4\Gateway\Profiler\Ticker;
 
 class HttpClient
 {
@@ -20,11 +21,13 @@ class HttpClient
     private $options;
 
 
+    private $profiler;
 
 
     public function __construct(Options $options)
     {
-        $this->options = $options;
+        $this->options  = $options;
+        $this->profiler = Ticker::getInstance();
     }
 
     public function getClient()
@@ -50,6 +53,8 @@ class HttpClient
 
     public function send(Url $url, HttpMethod $method)
     {
+        $uniqueId = $this->profiler->start();
+
         $method->isPost()
             ? $this->getClient()->setParameterPost($url->getParams()->toArray())
             : $this->getClient()->setParameterGet($url->getParams()->toArray());
@@ -58,6 +63,12 @@ class HttpClient
             ->setUri($url->getUri())
             ->setMethod((string) $method)
             ->send();
+
+        $this->profiler
+            ->setUrl($uniqueId, $url->getUri())
+            ->setMethod($uniqueId, (string) $method)
+            ->setParams($uniqueId, $url->getParams()->toArray())
+            ->end($uniqueId);
 
         return new Response($this->getClient()->getResponse(), $url);
     }
