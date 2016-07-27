@@ -15,6 +15,12 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
      */
     private $optionsMock;
 
+    private $urlValue = 'http://google.com';
+
+    private $methodValue = 'GET';
+
+    private $paramsValue = ['id' => 123];
+
     protected function setUp()
     {
         $this->optionsMock = $this->getMockBuilder('\G4\Gateway\Options')
@@ -50,6 +56,11 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Zend\Http\Client', $this->client->getClient());
     }
 
+    public function testGetProfiler()
+    {
+        $this->assertInstanceOf('\G4\Gateway\Profiler\Ticker', $this->client->getProfiler());
+    }
+
     public function testSend()
     {
         $paramsMock = $this->getMockBuilder('\G4\Gateway\Params')
@@ -59,7 +70,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $paramsMock
             ->expects($this->once())
             ->method('toArray')
-            ->willReturn(['id' => 123]);
+            ->willReturn($this->paramsValue);
 
         $urlMock = $this->getMockBuilder('\G4\Gateway\Url')
             ->disableOriginalConstructor()
@@ -73,7 +84,7 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $urlMock
             ->expects($this->once())
             ->method('getUri')
-            ->willReturn('http://google.com');
+            ->willReturn($this->urlValue);
 
         $methodMock = $this->getMockBuilder('\G4\Gateway\HttpMethod')
             ->disableOriginalConstructor()
@@ -87,8 +98,28 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
         $methodMock
             ->expects($this->once())
             ->method('__toString')
-            ->willReturn('GET');
+            ->willReturn($this->methodValue);
 
+        $httpClientMock = $this->getMockBuilder('\G4\Gateway\HttpClient')
+            ->disableOriginalConstructor()
+            ->setMethods(['getClient', 'getProfiler'])
+            ->getMock();
+
+        $httpClientMock
+            ->expects($this->exactly(3))
+            ->method('getClient')
+            ->willReturn($this->clientMockFactory());
+
+        $httpClientMock
+            ->expects($this->exactly(2))
+            ->method('getProfiler')
+            ->willReturn($this->profilerMockFactory());
+
+        $this->assertInstanceOf('\G4\Gateway\Response', $httpClientMock->send($urlMock, $methodMock));
+    }
+
+    private function clientMockFactory()
+    {
         $responseMock = $this->getMockBuilder('\Zend\Http\Response')
             ->disableOriginalConstructor()
             ->getMock();
@@ -116,16 +147,45 @@ class HttpClientTest extends \PHPUnit_Framework_TestCase
             ->method('getResponse')
             ->willReturn($responseMock);
 
-        $httpClientMock = $this->getMockBuilder('\G4\Gateway\HttpClient')
+        return $clientMock;
+    }
+
+    private function profilerMockFactory()
+    {
+        $uniqueId = md5(time());
+
+        $profilerMock = $this->getMockBuilder('\G4\Gateway\Profiler\Ticker')
             ->disableOriginalConstructor()
-            ->setMethods(['getClient'])
             ->getMock();
 
-        $httpClientMock
-            ->expects($this->exactly(3))
-            ->method('getClient')
-            ->willReturn($clientMock);
+        $profilerMock
+            ->expects($this->once())
+            ->method('start')
+            ->willReturn($uniqueId);
 
-        $this->assertInstanceOf('\G4\Gateway\Response', $httpClientMock->send($urlMock, $methodMock));
+        $profilerMock
+            ->expects($this->once())
+            ->method('setUrl')
+            ->with($uniqueId, $this->urlValue)
+            ->willReturnSelf();
+
+        $profilerMock
+            ->expects($this->once())
+            ->method('setMethod')
+            ->with($uniqueId, $this->methodValue)
+            ->willReturnSelf();
+
+        $profilerMock
+            ->expects($this->once())
+            ->method('setParams')
+            ->with($uniqueId, $this->paramsValue)
+            ->willReturnSelf();
+
+        $profilerMock
+            ->expects($this->once())
+            ->method('end')
+            ->with($uniqueId);
+
+        return $profilerMock;
     }
 }

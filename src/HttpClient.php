@@ -27,7 +27,6 @@ class HttpClient
     public function __construct(Options $options)
     {
         $this->options  = $options;
-        $this->profiler = Ticker::getInstance();
     }
 
     public function getClient()
@@ -51,23 +50,34 @@ class HttpClient
         return $this->client;
     }
 
+    public function getProfiler()
+    {
+        if (! $this->profiler instanceof Ticker) {
+            $this->profiler = Ticker::getInstance();
+        }
+        return $this->profiler;
+    }
+
     public function send(Url $url, HttpMethod $method)
     {
-        $uniqueId = $this->profiler->start();
+        $uniqueId   = $this->getProfiler()->start();
+        $uri        = $url->getUri();
+        $params     = $url->getParams()->toArray();
+        $httpMethod = (string) $method;
 
         $method->isPost()
-            ? $this->getClient()->setParameterPost($url->getParams()->toArray())
-            : $this->getClient()->setParameterGet($url->getParams()->toArray());
+            ? $this->getClient()->setParameterPost($params)
+            : $this->getClient()->setParameterGet($params);
 
         $this->getClient()
-            ->setUri($url->getUri())
-            ->setMethod((string) $method)
+            ->setUri($uri)
+            ->setMethod($httpMethod)
             ->send();
 
-        $this->profiler
-            ->setUrl($uniqueId, $url->getUri())
-            ->setMethod($uniqueId, (string) $method)
-            ->setParams($uniqueId, $url->getParams()->toArray())
+        $this->getProfiler()
+            ->setUrl($uniqueId, $uri)
+            ->setMethod($uniqueId, $httpMethod)
+            ->setParams($uniqueId, $params)
             ->end($uniqueId);
 
         return new Response($this->getClient()->getResponse(), $url);
