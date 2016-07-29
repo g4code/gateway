@@ -5,6 +5,8 @@ namespace G4\Gateway\Profiler;
 class Ticker extends \G4\Profiler\Ticker\TickerAbstract
 {
 
+    const NAME = 'gateway';
+
     private static $instance;
 
     private function __construct() {}
@@ -17,10 +19,10 @@ class Ticker extends \G4\Profiler\Ticker\TickerAbstract
      */
     final public static function getInstance()
     {
-        if (static::$instance === null) {
-            static::$instance = new static();
+        if (self::$instance === null) {
+            self::$instance = new static();
         }
-        return static::$instance;
+        return self::$instance;
     }
 
     /**
@@ -36,7 +38,7 @@ class Ticker extends \G4\Profiler\Ticker\TickerAbstract
      */
     public function getName()
     {
-        return 'gateway';
+        return self::NAME;
     }
 
     /**
@@ -47,7 +49,7 @@ class Ticker extends \G4\Profiler\Ticker\TickerAbstract
     public function setMethod($uniqueId, $method)
     {
         $this->getDataPart($uniqueId)->setMethod($method);
-        return static::$instance;
+        return self::$instance;
     }
 
     /**
@@ -58,7 +60,7 @@ class Ticker extends \G4\Profiler\Ticker\TickerAbstract
     public function setParams($uniqueId, $params)
     {
         $this->getDataPart($uniqueId)->setParams($params);
-        return static::$instance;
+        return self::$instance;
     }
 
     /**
@@ -69,6 +71,6 @@ class Ticker extends \G4\Profiler\Ticker\TickerAbstract
     public function setUrl($uniqueId, $url)
     {
         $this->getDataPart($uniqueId)->setUrl($url);
-        return static::$instance;
+        return self::$instance;
     }
 }
