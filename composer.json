@@ -31,7 +31,7 @@
     "require": {
         "php"                    : ">=5.4",
         "g4/constants"           : "*",
-        "g4/profiler"            : "0.4.0",
+        "g4/profiler"            : "*",
         "zendframework/zend-http": "2.3.*"
     }
 }
