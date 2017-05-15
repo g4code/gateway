@@ -22,7 +22,11 @@ class Response
      */
     private $url;
 
-
+    /**
+     * Response constructor.
+     * @param ClientResponse $clientResponse
+     * @param Url $url
+     */
     public function __construct(ClientResponse $clientResponse, Url $url)
     {
         $this->clientResponse = $clientResponse;

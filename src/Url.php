@@ -21,8 +21,11 @@ class Url
     private $serviceName;
 
     /**
+     * Url constructor.
      * @param $uri
+     * @param null $serviceName
      * @param Params $params
+     * @throws \Exception
      */
     public function __construct($uri, $serviceName = null, Params $params)
     {

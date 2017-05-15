@@ -20,15 +20,24 @@ class HttpClient
      */
     private $options;
 
-
+    /**
+     * @var Ticker
+     */
     private $profiler;
 
 
+    /**
+     * HttpClient constructor.
+     * @param \G4\Gateway\Options $options
+     */
     public function __construct(Options $options)
     {
         $this->options  = $options;
     }
 
+    /**
+     * @return \Zend\Http\Client
+     */
     public function getClient()
     {
         if (! $this->client instanceof \Zend\Http\Client) {
@@ -50,6 +59,9 @@ class HttpClient
         return $this->client;
     }
 
+    /**
+     * @return Ticker
+     */
     public function getProfiler()
     {
         if (! $this->profiler instanceof Ticker) {
@@ -58,6 +70,11 @@ class HttpClient
         return $this->profiler;
     }
 
+    /**
+     * @param Url $url
+     * @param \G4\Gateway\HttpMethod $method
+     * @return Response
+     */
     public function send(Url $url, HttpMethod $method)
     {
         $uniqueId   = $this->getProfiler()->start();
