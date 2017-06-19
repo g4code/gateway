@@ -49,9 +49,19 @@ class Response
         return $this->clientResponse->getStatusCode();
     }
 
+    public function getHeaders()
+    {
+        return $this->clientResponse->getHeaders();
+    }
+
     public function getIdentifier()
     {
         return (string) $this->url;
+    }
+
+    public function getParams()
+    {
+        return $this->url->getParams();
     }
 
     public function getResource($key)

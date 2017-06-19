@@ -9,6 +9,10 @@ use G4\Gateway\Params;
 
 class Http
 {
+    /**
+     * @var string
+     */
+    private $methodName;
 
     /**
      * @var Options
@@ -42,7 +46,9 @@ class Http
      */
     public function delete(array $params = null)
     {
-        return $this->send(HttpMethod::DELETE, $params);
+        return $this
+            ->setMethodName(HttpMethod::DELETE)
+            ->send($params);
     }
 
     /**
@@ -51,7 +57,9 @@ class Http
      */
     public function get(array $params = null)
     {
-        return $this->send(HttpMethod::GET, $params);
+        return $this
+            ->setMethodName(HttpMethod::GET)
+            ->send($params);
     }
 
     /**
@@ -68,7 +76,9 @@ class Http
      */
     public function post(array $params = null)
     {
-        return $this->send(HttpMethod::POST, $params);
+        return $this
+            ->setMethodName(HttpMethod::POST)
+            ->send($params);
     }
 
     /**
@@ -77,7 +87,9 @@ class Http
      */
     public function put(array $params = null)
     {
-        return $this->send(HttpMethod::PUT, $params);
+        return $this
+            ->setMethodName(HttpMethod::PUT)
+            ->send($params);
     }
 
     /**
@@ -91,14 +103,48 @@ class Http
     }
 
     /**
+     * @return string
+     */
+    public function getMethodName()
+    {
+        return $this->methodName;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->options->getHeaders();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    /**
+     * @param $methodName
+     * @return $this
+     */
+    private function setMethodName($methodName)
+    {
+        $this->methodName = $methodName;
+        return $this;
+    }
+
+    /**
      * @param $methodName
      * @param $params
      * @return Response
      */
-    private function send($methodName, $params)
+    private function send($params)
     {
         $client = $this->makeClient();
-        $method = new HttpMethod($methodName);
+        $method = new HttpMethod($this->getMethodName());
         $url    = new Url($this->uri, $this->serviceName, new Params($params));
 
         return $client->send($url, $method);
