@@ -20,6 +20,11 @@ class Http
     private $options;
 
     /**
+     * @var \G4\Gateway\Response
+     */
+    private $response;
+
+    /**
      * @var string
      */
     private $uri;
@@ -103,6 +108,14 @@ class Http
     }
 
     /**
+     * @return FullRequestInfo
+     */
+    public function makeFullRequestInfo()
+    {
+        return new FullRequestInfo($this, $this->response);
+    }
+
+    /**
      * @return string
      */
     public function getMethodName()
@@ -147,6 +160,8 @@ class Http
         $method = new HttpMethod($this->getMethodName());
         $url    = new Url($this->uri, $this->serviceName, new Params($params));
 
-        return $client->send($url, $method);
+        $this->response = $client->send($url, $method);
+
+        return $this->response;
     }
 }

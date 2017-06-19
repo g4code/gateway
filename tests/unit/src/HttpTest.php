@@ -59,6 +59,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\G4\Gateway\HttpClient', $http->makeClient());
     }
 
+    public function testMakeFullRequestInfo()
+    {
+        $this->setHttpMock();
+        $this->http->post([]);
+        $this->assertInstanceOf('\G4\Gateway\FullRequestInfo', $this->http->makeFullRequestInfo());
+    }
+
     public function testGetMethodName()
     {
         $this->setHttpMock();
