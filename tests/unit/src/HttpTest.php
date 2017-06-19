@@ -1,6 +1,7 @@
 <?php
 
 use G4\Gateway\Http;
+use G4\Gateway\HttpMethod;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +38,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\G4\Gateway\Response', $this->http->get([]));
     }
 
-    public function testPoste()
+    public function testPost()
     {
         $this->setHttpMock();
         $this->assertInstanceOf('\G4\Gateway\Response', $this->http->post([]));
@@ -56,6 +57,44 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $http->setServiceName('maps');
 
         $this->assertInstanceOf('\G4\Gateway\HttpClient', $http->makeClient());
+    }
+
+    public function testGetMethodName()
+    {
+        $this->setHttpMock();
+        $this->http->post([]);
+        $this->assertEquals(HttpMethod::POST, $this->http->getMethodName());
+        $this->assertNotEquals(HttpMethod::PUT, $this->http->getMethodName());
+        $this->assertNotEquals(HttpMethod::GET, $this->http->getMethodName());
+        $this->assertNotEquals(HttpMethod::DELETE, $this->http->getMethodName());
+    }
+
+    public function testGetHeaders()
+    {
+        $this->optionsMock
+            ->expects($this->once())
+            ->method('getHeaders')
+            ->willReturn([
+                'Server'        => 'Apache',
+                'Cache-Control' => 'no-cache',
+                'Content-Type'  => 'application/pdf',
+            ]);
+
+        $http = new Http('http://google.com', $this->optionsMock);
+        $this->assertEquals(
+            [
+                'Server'        => 'Apache',
+                'Cache-Control' => 'no-cache',
+                'Content-Type'  => 'application/pdf',
+            ],
+            $http->getHeaders()
+        );
+    }
+
+    public function testGetUri()
+    {
+        $http = new Http('http://google.com', $this->optionsMock);
+        $this->assertEquals('http://google.com', $http->getUri());
     }
 
     private function setHttpMock()
