@@ -60,6 +60,27 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $this->response->getCode());
     }
 
+    public function testGetHeaders()
+    {
+        $this->clientResponseMock
+            ->expects($this->once())
+            ->method('getHeaders')
+            ->willReturn([
+                'Server'        => 'Apache',
+                'Cache-Control' => 'no-cache',
+                'Content-Type'  => 'application/pdf',
+            ]);
+
+        $this->assertEquals(
+            [
+                'Server'        => 'Apache',
+                'Cache-Control' => 'no-cache',
+                'Content-Type'  => 'application/pdf',
+            ],
+            $this->response->getHeaders()
+        );
+    }
+
     public function testGetIdentifier()
     {
         $this->urlMock
@@ -68,6 +89,25 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
             ->willReturn('http://google.com');
 
         $this->assertEquals('http://google.com', $this->response->getIdentifier());
+    }
+
+    public function testGetParams()
+    {
+        $this->urlMock
+            ->expects($this->once())
+            ->method('getParams')
+            ->willReturn([
+                'domain' => 'www.test.com',
+                'ip'     => '192.192.192.192'
+            ]);
+
+        $this->assertEquals(
+            [
+                'domain' => 'www.test.com',
+                'ip'     => '192.192.192.192'
+            ],
+            $this->response->getParams()
+        );
     }
 
     public function testGetResource()
