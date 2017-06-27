@@ -46,4 +46,21 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($data, $this->options->getTimeout());
     }
+
+    public function testIsSimpleClientType()
+    {
+        $this->assertFalse($this->options->isSimpleClientType());
+    }
+
+    public function testUseComplexClientType()
+    {
+        $this->options->useComplexClientType();
+        $this->assertFalse($this->options->isSimpleClientType());
+    }
+
+    public function testUseSimpleClientType()
+    {
+        $this->options->useSimpleClientType();
+        $this->assertTrue($this->options->isSimpleClientType());
+    }
 }
