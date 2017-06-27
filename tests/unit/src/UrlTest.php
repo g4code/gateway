@@ -35,6 +35,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://google.com/service', $this->url->getUri());
     }
 
+    public function testGetUriWithoutServiceName()
+    {
+        $url = new Url('http://google.com', null, $this->paramsMock);
+        $this->assertEquals('http://google.com', $url->getUri());
+    }
+
     public function testToString()
     {
         $this->paramsMock
@@ -43,6 +49,16 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->willReturn('id=123');
 
         $this->assertEquals('http://google.com/service?id=123', (string) $this->url);
+    }
+
+    public function testToStringWithoutParams()
+    {
+        $this->paramsMock
+            ->expects($this->once())
+            ->method('__toString')
+            ->willReturn('');
+
+        $this->assertEquals('http://google.com/service', (string) $this->url);
     }
 
     public function testGetParams()
