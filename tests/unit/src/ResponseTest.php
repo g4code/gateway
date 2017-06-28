@@ -8,61 +8,80 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $clientResponseMock;
-
-    /**
-     * @var Response
-     */
-    private $response;
+    private $clientComplexResponseMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $urlMock;
+    private $clientSimpleResponseMock;
+
+    /**
+     * @var Response
+     */
+    private $complexResponse;
+
+    /**
+     * @var Response
+     */
+    private $simpleResponse;
 
     protected function setUp()
     {
-        $this->clientResponseMock = $this->getMockBuilder('\Zend\Http\Response')
+        $this->clientComplexResponseMock = $this->getMockBuilder('\G4\Gateway\Client\ComplexResponse')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->urlMock = $this->getMockBuilder('\G4\Gateway\Url')
+        $this->clientSimpleResponseMock = $this->getMockBuilder('\G4\Gateway\Client\SimpleResponse')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->response = new Response($this->clientResponseMock, $this->urlMock);
+        $this->complexResponse = new Response($this->clientComplexResponseMock);
+        $this->simpleResponse  = new Response($this->clientSimpleResponseMock);
     }
 
     protected function tearDown()
     {
-        $this->clientResponseMock = null;
-        $this->urlMock = null;
-        $this->response = null;
+        $this->clientComplexResponseMock    = null;
+        $this->clientSimpleResponseMock     = null;
+        $this->complexResponse              = null;
+        $this->simpleResponse               = null;
     }
 
     public function testGetBody()
     {
-        $this->clientResponseMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
             ->method('getBody')
             ->willReturn('{"id":123}');
 
-        $this->assertEquals(['id' => 123], $this->response->getBody());
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('getBody')
+            ->willReturn('{"id":123}');
+
+        $this->assertEquals('{"id":123}', $this->complexResponse->getBody());
+        $this->assertEquals('{"id":123}', $this->simpleResponse->getBody());
     }
 
     public function testGetCode()
     {
-        $this->clientResponseMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
-            ->method('getStatusCode')
+            ->method('getCode')
             ->willReturn(200);
 
-        $this->assertEquals(200, $this->response->getCode());
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('getCode')
+            ->willReturn(200);
+
+        $this->assertEquals(200, $this->complexResponse->getCode());
+        $this->assertEquals(200, $this->simpleResponse->getCode());
     }
 
     public function testGetHeaders()
     {
-        $this->clientResponseMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
             ->method('getHeaders')
             ->willReturn([
@@ -77,23 +96,47 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 'Cache-Control' => 'no-cache',
                 'Content-Type'  => 'application/pdf',
             ],
-            $this->response->getHeaders()
+            $this->complexResponse->getHeaders()
+        );
+
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('getHeaders')
+            ->willReturn([
+                'Server'        => 'Apache',
+                'Cache-Control' => 'no-cache',
+                'Content-Type'  => 'application/pdf',
+            ]);
+
+        $this->assertEquals(
+            [
+                'Server'        => 'Apache',
+                'Cache-Control' => 'no-cache',
+                'Content-Type'  => 'application/pdf',
+            ],
+            $this->simpleResponse->getHeaders()
         );
     }
 
     public function testGetIdentifier()
     {
-        $this->urlMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
-            ->method('__toString')
+            ->method('getIdentifier')
             ->willReturn('http://google.com');
 
-        $this->assertEquals('http://google.com', $this->response->getIdentifier());
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('getIdentifier')
+            ->willReturn('http://google.com');
+
+        $this->assertEquals('http://google.com', $this->complexResponse->getIdentifier());
+        $this->assertEquals('http://google.com', $this->simpleResponse->getIdentifier());
     }
 
     public function testGetParams()
     {
-        $this->urlMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
             ->method('getParams')
             ->willReturn([
@@ -106,47 +149,87 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 'domain' => 'www.test.com',
                 'ip'     => '192.192.192.192'
             ],
-            $this->response->getParams()
+            $this->complexResponse->getParams()
+        );
+
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('getParams')
+            ->willReturn([
+                'domain' => 'www.test.com',
+                'ip'     => '192.192.192.192'
+            ]);
+
+        $this->assertEquals(
+            [
+                'domain' => 'www.test.com',
+                'ip'     => '192.192.192.192'
+            ],
+            $this->simpleResponse->getParams()
         );
     }
 
     public function testGetResource()
     {
-        $this->clientResponseMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
-            ->method('getBody')
-            ->willReturn('{"id":123}');
+            ->method('getResource')
+            ->willReturn('123');
 
-        $this->assertEquals(123, $this->response->getResource('id'));
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('getResource')
+            ->willReturn('123');
+
+        $this->assertEquals(123, $this->complexResponse->getResource('id'));
+        $this->assertEquals(123, $this->simpleResponse->getResource('id'));
     }
 
     public function testIsClientError()
     {
-        $this->clientResponseMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
             ->method('isClientError')
             ->willReturn(true);
 
-        $this->assertTrue($this->response->isClientError());
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('isClientError')
+            ->willReturn(true);
+
+        $this->assertTrue($this->complexResponse->isClientError());
+        $this->assertTrue($this->simpleResponse->isClientError());
     }
 
     public function testIsServerError()
     {
-        $this->clientResponseMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
             ->method('isServerError')
             ->willReturn(true);
 
-        $this->assertTrue($this->response->isServerError());
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('isServerError')
+            ->willReturn(true);
+
+        $this->assertTrue($this->complexResponse->isServerError());
+        $this->assertTrue($this->simpleResponse->isServerError());
     }
 
     public function testIsSuccess()
     {
-        $this->clientResponseMock
+        $this->clientComplexResponseMock
             ->expects($this->once())
             ->method('isSuccess')
             ->willReturn(true);
 
-        $this->assertTrue($this->response->isSuccess());
+        $this->clientSimpleResponseMock
+            ->expects($this->once())
+            ->method('isSuccess')
+            ->willReturn(true);
+
+        $this->assertTrue($this->complexResponse->isSuccess());
+        $this->assertTrue($this->simpleResponse->isSuccess());
     }
 }
