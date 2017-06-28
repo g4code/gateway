@@ -2,8 +2,7 @@
 
 use G4\Gateway\Client\SimpleHttpClient;
 
-//TODO Sinisa - temporary disabled
-class SimpleHttpClientTest //extends PHPUnit_Framework_TestCase
+class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var SimpleHttpClient
@@ -24,6 +23,10 @@ class SimpleHttpClientTest //extends PHPUnit_Framework_TestCase
 
     public function testSend()
     {
+        $this->assertInstanceOf(
+            'G4\Gateway\Client\SimpleResponse',
+            $this->client->send($this->urlMock(), $this->methodMock())
+        );
     }
 
     private function urlMock()
