@@ -64,7 +64,7 @@ class ComplexHttpClient implements HttpClientInterface
     /**
      * @param Url $url
      * @param HttpMethod $method
-     * @return Response
+     * @return ComplexResponse
      */
     public function send(Url $url, HttpMethod $method)
     {
