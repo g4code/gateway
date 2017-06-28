@@ -34,6 +34,7 @@ class Options
     public function __construct()
     {
         $this->headers = [];
+        $this->useComplexClientType();
     }
 
     /**
