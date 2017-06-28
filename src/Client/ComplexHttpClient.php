@@ -88,6 +88,6 @@ class ComplexHttpClient implements HttpClientInterface
             ->setParams($uniqueId, $params)
             ->end($uniqueId);
 
-        return new Response($this->getClient()->getResponse(), $url);
+        return new ComplexResponse($this->getClient()->getResponse(), $url);
     }
 }
