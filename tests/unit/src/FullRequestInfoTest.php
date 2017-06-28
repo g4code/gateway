@@ -173,7 +173,7 @@ class FullRequestInfoTest extends PHPUnit_Framework_TestCase
 
     private function setHttpMock()
     {
-        $responseMock = $this->getMockBuilder('\G4\Gateway\Response')
+        $responseMock = $this->getMockBuilder('\G4\Gateway\Client\ComplexResponse')
             ->disableOriginalConstructor()
             ->getMock();
 
