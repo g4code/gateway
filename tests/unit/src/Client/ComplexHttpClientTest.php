@@ -68,7 +68,7 @@ class ComplexHttpClientTest extends PHPUnit_Framework_TestCase
 
     public function testSend()
     {
-        $this->assertInstanceOf('\G4\Gateway\Response', $this->client->send($this->urlMock(), $this->methodMock()));
+        $this->assertInstanceOf('\G4\Gateway\Client\ComplexResponse', $this->client->send($this->urlMock(), $this->methodMock()));
     }
 
     private function urlMock()
