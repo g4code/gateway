@@ -32,6 +32,7 @@
         "php"                    : ">=5.4",
         "g4/constants"           : "*",
         "g4/profiler"            : "*",
-        "zendframework/zend-http": "2.3.*"
+        "zendframework/zend-http": "2.3.*",
+        "g4/value-object"        : "^2.0"
     }
 }

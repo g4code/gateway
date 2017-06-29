@@ -39,7 +39,10 @@ class Url
 
     public function __toString()
     {
-        return $this->getUri() . '?' . (string) $this->params;
+        $params = (string) $this->params;
+        return $params === ''
+            ? $this->getUri()
+            : $this->getUri() . '?' . $params;
     }
 
     /**
@@ -55,7 +58,9 @@ class Url
      */
     public function getUri()
     {
-        return $this->uri . '/' .  $this->getServiceName();
+        return $this->serviceName === null
+            ? $this->uri
+            : $this->uri . '/' .  $this->getServiceName();
     }
 
     /**

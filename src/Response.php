@@ -3,50 +3,32 @@
 namespace G4\Gateway;
 
 use Zend\Http\Response as ClientResponse;
+use G4\Gateway\Client\ClientResponseInterface;
 
 class Response
 {
-
     /**
-     * @var ClientResponse
+     * @var ClientResponseInterface
      */
     private $clientResponse;
 
     /**
-     * @var array
+     * Response constructor
+     * @param ClientResponseInterface $clientResponse
      */
-    private $body;
-
-    /**
-     * @var Url
-     */
-    private $url;
-
-    /**
-     * Response constructor.
-     * @param ClientResponse $clientResponse
-     * @param Url $url
-     */
-    public function __construct(ClientResponse $clientResponse, Url $url)
+    public function __construct(ClientResponseInterface $clientResponse)
     {
         $this->clientResponse = $clientResponse;
-        $this->url            = $url;
-
     }
-
+    
     public function getBody()
     {
-        if (!isset($this->body)) {
-            $body = $this->clientResponse->getBody();
-            $decoded = json_decode($body, true);
-            $this->body = $decoded ? $decoded : $body;
-        }
-        return $this->body;
+       return $this->clientResponse->getBody();
     }
 
     public function getCode()
     {
-        return $this->clientResponse->getStatusCode();
+        return $this->clientResponse->getCode();
     }
 
     public function getHeaders()
@@ -56,20 +38,17 @@ class Response
 
     public function getIdentifier()
     {
-        return (string) $this->url;
+        return $this->clientResponse->getIdentifier();
     }
 
     public function getParams()
     {
-        return $this->url->getParams();
+        return $this->clientResponse->getParams();
     }
 
     public function getResource($key)
     {
-        $body = $this->getBody();
-        return isset($body[$key])
-            ? $body[$key]
-            : null;
+        return $this->clientResponse->getResource($key);
     }
 
     public function isClientError()

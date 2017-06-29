@@ -5,7 +5,14 @@ namespace G4\Gateway;
 class Options
 {
 
-    const DEFAULT_TIMEOUT = 10;
+    const DEFAULT_TIMEOUT       = 10;
+    const COMPLEX_CLIENT_TYPE   = 'complex';
+    const SIMPLE_CLIENT_TYPE    = 'simple';
+
+    /**
+     * @var string
+     */
+    private $clientType;
 
     /**
      * @var array
@@ -27,6 +34,7 @@ class Options
     public function __construct()
     {
         $this->headers = [];
+        $this->useComplexClientType();
     }
 
     /**
@@ -85,6 +93,32 @@ class Options
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSimpleClientType()
+    {
+        return $this->clientType == self::SIMPLE_CLIENT_TYPE;
+    }
+
+    /**
+     * @return $this
+     */
+    public function useComplexClientType()
+    {
+        $this->clientType = self::COMPLEX_CLIENT_TYPE;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function useSimpleClientType()
+    {
+        $this->clientType = self::SIMPLE_CLIENT_TYPE;
         return $this;
     }
 }

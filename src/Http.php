@@ -2,10 +2,8 @@
 
 namespace G4\Gateway;
 
-use G4\Gateway\HttpClient;
-use G4\Gateway\HttpMethod;
-use G4\Gateway\Params;
-
+use G4\Gateway\Client\HttpClientFactory;
+use G4\Gateway\Client\HttpClientInterface;
 
 class Http
 {
@@ -68,11 +66,11 @@ class Http
     }
 
     /**
-     * @return \G4\Gateway\HttpClient
+     * @return HttpClientInterface
      */
     public function makeClient()
     {
-        return new HttpClient($this->options);
+        return (new HttpClientFactory($this->options))->createClient();
     }
 
     /**
@@ -150,7 +148,6 @@ class Http
     }
 
     /**
-     * @param $methodName
      * @param $params
      * @return Response
      */
@@ -160,7 +157,8 @@ class Http
         $method = new HttpMethod($this->getMethodName());
         $url    = new Url($this->uri, $this->serviceName, new Params($params));
 
-        $this->response = $client->send($url, $method);
+        $response       = $client->send($url, $method);
+        $this->response = new Response($response);
 
         return $this->response;
     }
