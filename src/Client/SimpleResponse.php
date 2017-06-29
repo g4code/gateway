@@ -113,7 +113,7 @@ class SimpleResponse implements ClientResponseInterface
      */
     public function isClientError()
     {
-        return $this->statusCode < 500 && $this->statusCode >= 400;
+        return $this->statusCode->getValue() < 500 && $this->statusCode->getValue() >= 400;
     }
 
     /**
@@ -121,7 +121,7 @@ class SimpleResponse implements ClientResponseInterface
      */
     public function isServerError()
     {
-        return 500 <= $this->statusCode && 600 > $this->statusCode;
+        return 500 <= $this->statusCode->getValue() && 600 > $this->statusCode->getValue();
     }
 
     /**
@@ -129,6 +129,6 @@ class SimpleResponse implements ClientResponseInterface
      */
     public function isSuccess()
     {
-        return 200 <= $this->statusCode && 300 > $this->statusCode;
+        return 200 <= $this->statusCode->getValue() && 300 > $this->statusCode->getValue();
     }
 }
