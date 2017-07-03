@@ -50,11 +50,11 @@ class ComplexResponse implements ClientResponseInterface
     }
 
     /**
-     * @return \Zend\Http\Headers
+     * @return array
      */
     public function getHeaders()
     {
-        return $this->clientResponse->getHeaders();
+        return $this->clientResponse->getHeaders()->toArray();
     }
 
     /**

@@ -1,7 +1,8 @@
 <?php
 
 use G4\Gateway\Url;
-use G4\Gateway\Response;
+use Zend\Http\Headers;
+use Zend\Http\AbstractMessage;
 use G4\Gateway\Client\ComplexResponse;
 use Zend\Http\Response as ClientResponse;
 
@@ -20,6 +21,11 @@ class ComplexResponseTest extends PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
+    private $headersMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     private $urlMock;
 
     protected function setUp()
@@ -29,6 +35,10 @@ class ComplexResponseTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->urlMock = $this->getMockBuilder(Url::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->headersMock = $this->getMockBuilder(Headers::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -60,6 +70,30 @@ class ComplexResponseTest extends PHPUnit_Framework_TestCase
             ->willReturn(200);
 
         $this->assertEquals(200, $this->response->getCode());
+    }
+
+    public function testGetHeaders()
+    {
+        $this->headersMock
+            ->expects($this->once())
+            ->method('toArray')
+            ->willReturn([
+                'Server'        => 'Apache',
+                'Cache-Control' => 'no-cache',
+                'Content-Type'  => 'application/pdf',
+            ]);
+
+        $this->clientResponseMock
+            ->expects($this->once())
+            ->method('getHeaders')
+            ->willReturn($this->headersMock);
+
+        $this->assertEquals([
+            'Server'        => 'Apache',
+            'Cache-Control' => 'no-cache',
+            'Content-Type'  => 'application/pdf',
+
+        ], $this->response->getHeaders());
     }
 
     public function testGetIdentifier()
