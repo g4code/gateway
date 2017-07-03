@@ -4,12 +4,16 @@ namespace G4\Gateway\Client;
 
 use G4\Gateway\Url;
 use G4\Gateway\Options;
-use G4\Gateway\Response;
 use G4\Gateway\HttpMethod;
 use G4\Gateway\Profiler\Ticker;
 
 class ComplexHttpClient implements HttpClientInterface
 {
+    /**
+     * @var \Zend\Http\Client
+     */
+    private $client;
+
     /**
      * @var Options
      */
@@ -34,20 +38,23 @@ class ComplexHttpClient implements HttpClientInterface
      */
     public function getClient()
     {
-        $client = new \Zend\Http\Client();
-        $client
-            ->setAdapter('\Zend\Http\Client\Adapter\Curl')
-            ->setEncType(\Zend\Http\Client::ENC_URLENCODED)
-            ->setOptions([
-                'timeout' => $this->options->getTimeout(),
-                'curloptions' => [
-                    CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()
-                ],
-            ]);
+        if (! $this->client instanceof \Zend\Http\Client) {
 
-        $client->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
+            $this->client = new \Zend\Http\Client();
+            $this->client
+                ->setAdapter('\Zend\Http\Client\Adapter\Curl')
+                ->setEncType(\Zend\Http\Client::ENC_URLENCODED)
+                ->setOptions([
+                    'timeout' => $this->options->getTimeout(),
+                    'curloptions' => [
+                        CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()
+                    ],
+                ]);
 
-        return $client;
+            $this->client->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
+        }
+
+        return $this->client;
     }
 
     /**
