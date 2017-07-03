@@ -73,7 +73,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testMakeComplexClient()
     {
         $this->optionsMock
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getHeaders')
             ->willReturn([
                 'Server'        => 'Apache',
@@ -85,20 +85,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $http->setServiceName('maps');
 
-        $this->assertInstanceOf('\Zend\Http\Client', $http->makeClient());
+        $this->assertInstanceOf('\G4\Gateway\Client\ComplexHttpClient', $http->makeClient());
     }
 
     public function testMakeComplexClientWithUseMethod()
     {
-        $this->optionsMock
-            ->expects($this->once())
-            ->method('getHeaders')
-            ->willReturn([
-                'Server'        => 'Apache',
-                'Cache-Control' => 'no-cache',
-                'Content-Type'  => 'application/pdf',
-            ]);
-
         $this->optionsMock
             ->expects($this->once())
         ->method('isSimpleClientType')
@@ -108,7 +99,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $http->setServiceName('maps');
 
-        $this->assertInstanceOf('\Zend\Http\Client', $http->makeClient());
+        $this->assertInstanceOf('\G4\Gateway\Client\ComplexHttpClient', $http->makeClient());
     }
 
     public function testMakeSimpleClient()
