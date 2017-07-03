@@ -42,7 +42,7 @@ class FullRequestInfo
     }
 
     /**
-     * @return \Zend\Http\Headers
+     * @return array
      */
     public function getResponseHeaders()
     {

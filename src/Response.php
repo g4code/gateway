@@ -2,7 +2,6 @@
 
 namespace G4\Gateway;
 
-use Zend\Http\Response as ClientResponse;
 use G4\Gateway\Client\ClientResponseInterface;
 
 class Response
@@ -20,7 +19,7 @@ class Response
     {
         $this->clientResponse = $clientResponse;
     }
-    
+
     public function getBody()
     {
        return $this->clientResponse->getBody();
