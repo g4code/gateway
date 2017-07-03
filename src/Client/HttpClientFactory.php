@@ -27,6 +27,6 @@ class HttpClientFactory
     {
         return $this->options->isSimpleClientType()
             ? new SimpleHttpClient()
-            : (new ComplexHttpClient($this->options))->getClient();
+            : (new ComplexHttpClient($this->options));
     }
 }
