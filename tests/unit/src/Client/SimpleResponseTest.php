@@ -84,6 +84,17 @@ class SimpleResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(200, $this->response->getCode());
     }
 
+    public function testGetHeaders()
+    {
+        $this->response->setHeaders([
+            'Content-Type' => 'application/json',
+        ]);
+
+        $this->assertEquals([
+            'Content-Type' => 'application/json',
+        ], $this->response->getHeaders());
+    }
+
     public function testGetIdentifier()
     {
         $this->assertEquals('http://google.com', $this->response->getIdentifier());

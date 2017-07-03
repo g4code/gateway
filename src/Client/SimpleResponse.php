@@ -15,7 +15,7 @@ class SimpleResponse implements ClientResponseInterface
     private $body;
 
     /**
-     * @var StringLiteral
+     * @var array
      */
     private $headers;
 
@@ -63,11 +63,11 @@ class SimpleResponse implements ClientResponseInterface
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getHeaders()
     {
-        return (string) $this->headers;
+        return $this->headers;
     }
 
     /**
@@ -99,10 +99,10 @@ class SimpleResponse implements ClientResponseInterface
     }
 
     /**
-     * @param StringLiteral $headers
+     * @param array $headers
      * @return $this
      */
-    public function setHeaders(StringLiteral $headers)
+    public function setHeaders(array $headers)
     {
         $this->headers = $headers;
         return $this;
