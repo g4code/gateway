@@ -23,7 +23,7 @@ class HttpClientFactoryTest extends PHPUnit_Framework_TestCase
     public function testCreateComplexClient()
     {
         $this->assertInstanceOf(
-            '\Zend\Http\Client',
+            '\G4\Gateway\Client\ComplexHttpClient',
             $this->httpClientFactory()->createClient()
         );
     }
@@ -33,7 +33,7 @@ class HttpClientFactoryTest extends PHPUnit_Framework_TestCase
         $this->options->useComplexClientType();
 
         $this->assertInstanceOf(
-            '\Zend\Http\Client',
+            '\G4\Gateway\Client\ComplexHttpClient',
             $this->httpClientFactory()->createClient()
         );
     }
