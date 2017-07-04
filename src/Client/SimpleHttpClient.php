@@ -14,6 +14,11 @@ class SimpleHttpClient implements HttpClientInterface
      */
     private $options;
 
+    private $imageTypes = [
+        'image/png',
+        'image/jpeg',
+        'image/gif',
+    ];
     /**
      * SimpleHttpClient constructor.
      * @param $options
@@ -48,6 +53,11 @@ class SimpleHttpClient implements HttpClientInterface
         $error           = curl_error($curl);
         $code            = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curlErrorNumber = curl_errno($curl);
+
+        $responseType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+        if(in_array($responseType, $this->imageTypes)){
+            $response = $responseType;
+        }
 
         curl_close($curl);
 
