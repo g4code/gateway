@@ -45,18 +45,19 @@ class SimpleHttpClient implements HttpClientInterface
 
         ]);
 
-        $response = curl_exec($curl);
-        $error    = curl_error($curl);
-        $code     = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $response        = curl_exec($curl);
+        $error           = curl_error($curl);
+        $code            = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curlErrorNumber = curl_errno($curl);
 
-        if (!curl_errno($curl)) {
+        curl_close($curl);
+
+        if ($curlErrorNumber == 0) {
             return (new SimpleResponse(new StringLiteral($response), new IntegerNumber($code), $url))
                 ->setHeaders($url->getParams()->toArray());
         }
 
-        curl_close($curl);
-
-        throw new \Exception($error, 500);
+        throw new \Exception('Curl error: '. $error, 500);
     }
 
     /**
