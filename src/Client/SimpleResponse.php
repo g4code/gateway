@@ -48,7 +48,8 @@ class SimpleResponse implements ClientResponseInterface
     public function getBody()
     {
         if(!is_array($this->body) && !empty($this->body)) {
-            return json_decode($this->body, true);
+            $decoded    = json_decode($this->body, true);
+            $this->body = $decoded ? $decoded : $this->body;
         }
 
         return $this->body;

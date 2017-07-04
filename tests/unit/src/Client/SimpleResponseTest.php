@@ -79,6 +79,14 @@ class SimpleResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([], $response->getBody());
     }
 
+    public function testGetBodyWithSuccessStringResponse()
+    {
+        $this->body = 'success:OK';
+
+        $response = new SimpleResponse($this->body, $this->statusCodeMock, $this->urlMock);
+        $this->assertEquals('success:OK', $response->getBody());
+    }
+
     public function testGetCode()
     {
         $this->assertEquals(200, $this->response->getCode());

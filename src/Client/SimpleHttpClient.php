@@ -6,7 +6,6 @@ use G4\Gateway\Url;
 use G4\Gateway\Options;
 use G4\Gateway\HttpMethod;
 use G4\ValueObject\IntegerNumber;
-use G4\ValueObject\StringLiteral;
 
 class SimpleHttpClient implements HttpClientInterface
 {
@@ -53,7 +52,7 @@ class SimpleHttpClient implements HttpClientInterface
         curl_close($curl);
 
         if ($curlErrorNumber == 0) {
-            return (new SimpleResponse(new StringLiteral($response), new IntegerNumber($code), $url))
+            return (new SimpleResponse($response, new IntegerNumber($code), $url))
                 ->setHeaders($url->getParams()->toArray());
         }
 
