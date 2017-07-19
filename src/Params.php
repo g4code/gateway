@@ -21,4 +21,9 @@ class Params
     {
         return $this->value;
     }
+
+    public function toJson()
+    {
+        return json_encode($this->value);
+    }
 }

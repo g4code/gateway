@@ -42,7 +42,7 @@ class SimpleHttpClient implements HttpClientInterface
             CURLOPT_URL             => $url->getUri(),
             CURLOPT_CUSTOMREQUEST   => $method,
             CURLOPT_HTTPHEADER      => $this->getHeaders(),
-            CURLOPT_POSTFIELDS      => $url->getParams()->toArray(),
+            CURLOPT_POSTFIELDS      => $this->options->isSendParamsArrayType() ? $url->getParams()->toArray() : $url->getParams()->toJson(),
             CURLOPT_VERBOSE         => true,
             CURLINFO_HEADER_OUT     => true,
             CURLOPT_RETURNTRANSFER  => true,

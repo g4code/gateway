@@ -5,9 +5,11 @@ namespace G4\Gateway;
 class Options
 {
 
-    const DEFAULT_TIMEOUT       = 10;
-    const COMPLEX_CLIENT_TYPE   = 'complex';
-    const SIMPLE_CLIENT_TYPE    = 'simple';
+    const DEFAULT_TIMEOUT           = 10;
+    const COMPLEX_CLIENT_TYPE       = 'complex';
+    const SIMPLE_CLIENT_TYPE        = 'simple';
+    const SEND_PARAMS_ARRAY_TYPE    = 'array';
+    const SEND_PARAMS_JSON_TYPE     = 'json';
 
     /**
      * @var string
@@ -19,11 +21,15 @@ class Options
      */
     private $headers;
 
-
     /**
      * @var boolean
      */
     private $sslVerifyPeer;
+
+    /**
+     * @var string
+     */
+    private $sendParamsType;
 
     /**
      * @var int
@@ -35,6 +41,7 @@ class Options
     {
         $this->headers = [];
         $this->useComplexClientType();
+        $this->useSendParamsArrayType();
     }
 
     /**
@@ -119,6 +126,32 @@ class Options
     public function useSimpleClientType()
     {
         $this->clientType = self::SIMPLE_CLIENT_TYPE;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendParamsArrayType()
+    {
+        return $this->sendParamsType == self::SEND_PARAMS_ARRAY_TYPE;
+    }
+
+    /**
+     * @return $this
+     */
+    public function useSendParamsArrayType()
+    {
+        $this->sendParamsType = self::SEND_PARAMS_ARRAY_TYPE;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function useSendParamsJsonType()
+    {
+        $this->sendParamsType = self::SEND_PARAMS_JSON_TYPE;
         return $this;
     }
 }

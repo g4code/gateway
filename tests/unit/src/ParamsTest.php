@@ -45,4 +45,9 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $params = new Params([]);
         $this->assertEquals('', (string) $params);
     }
+
+    public function testToJson()
+    {
+        $this->assertEquals('{"id":123,"title":"this is title"}', $this->params->toJson());
+    }
 }
