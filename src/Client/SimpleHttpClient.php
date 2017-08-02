@@ -5,6 +5,7 @@ namespace G4\Gateway\Client;
 use G4\Gateway\Url;
 use G4\Gateway\Options;
 use G4\Gateway\HttpMethod;
+use G4\Gateway\Profiler\Ticker;
 use G4\ValueObject\IntegerNumber;
 
 class SimpleHttpClient implements HttpClientInterface
@@ -19,6 +20,12 @@ class SimpleHttpClient implements HttpClientInterface
         'image/jpeg',
         'image/gif',
     ];
+
+    /**
+     * @var Ticker
+     */
+    private $profiler;
+
     /**
      * SimpleHttpClient constructor.
      * @param $options
@@ -29,6 +36,17 @@ class SimpleHttpClient implements HttpClientInterface
     }
 
     /**
+     * @return Ticker
+     */
+    public function getProfiler()
+    {
+        if (! $this->profiler instanceof Ticker) {
+            $this->profiler = Ticker::getInstance();
+        }
+        return $this->profiler;
+    }
+
+    /**
      * @param Url $url
      * @param HttpMethod $method
      * @return SimpleResponse
@@ -36,6 +54,7 @@ class SimpleHttpClient implements HttpClientInterface
      */
     public function send(Url $url, HttpMethod $method)
     {
+        $uniqueId   = $this->getProfiler()->start();
         $curl = curl_init();
 
         curl_setopt_array($curl, [
@@ -60,6 +79,12 @@ class SimpleHttpClient implements HttpClientInterface
         }
 
         curl_close($curl);
+
+        $this->getProfiler()
+            ->setUrl($uniqueId, $url->getUri())
+            ->setMethod($uniqueId, (string) $method)
+            ->setParams($uniqueId, $url->getParams()->toArray())
+            ->end($uniqueId);
 
         if ($curlErrorNumber == 0) {
             return (new SimpleResponse($response, new IntegerNumber($code), $url))
