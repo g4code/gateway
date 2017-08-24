@@ -55,10 +55,11 @@ class SimpleHttpClient implements HttpClientInterface
     public function send(Url $url, HttpMethod $method)
     {
         $uniqueId   = $this->getProfiler()->start();
-        $curl = curl_init();
+        $curl       = curl_init();
+        $uri        = $url->getUri();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL             => $url->getUri(),
+            CURLOPT_URL             => $uri,
             CURLOPT_CUSTOMREQUEST   => $method,
             CURLOPT_HTTPHEADER      => $this->getHeaders(),
             CURLOPT_POSTFIELDS      => $this->options->isSendParamsArrayType() ? $url->getParams()->toArray() : $url->getParams()->toJson(),
@@ -81,7 +82,7 @@ class SimpleHttpClient implements HttpClientInterface
         curl_close($curl);
 
         $this->getProfiler()
-            ->setUrl($uniqueId, $url->getUri())
+            ->setUrl($uniqueId, $uri)
             ->setMethod($uniqueId, (string) $method)
             ->setParams($uniqueId, $url->getParams()->toArray())
             ->end($uniqueId);
