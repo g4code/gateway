@@ -5,10 +5,11 @@ namespace G4\Gateway;
 class HttpMethod
 {
 
-    const GET    = 'GET';
-    const POST   = 'POST';
-    const PUT    = 'PUT';
-    const DELETE = 'DELETE';
+    const GET       = 'GET';
+    const PATCH     = 'PATCH';
+    const POST      = 'POST';
+    const PUT       = 'PUT';
+    const DELETE    = 'DELETE';
 
     /**
      * @var string
@@ -55,6 +56,7 @@ class HttpMethod
         return in_array($value, [
             self::DELETE,
             self::GET,
+            self::PATCH,
             self::POST,
             self::PUT,
         ]);

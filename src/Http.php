@@ -73,6 +73,13 @@ class Http
         return (new HttpClientFactory($this->options))->createClient();
     }
 
+    public function patch(array $params = null)
+    {
+        return $this
+            ->setMethodName(HttpMethod::PATCH)
+            ->send($params);
+    }
+
     /**
      * @param array|null $params
      * @return Response
