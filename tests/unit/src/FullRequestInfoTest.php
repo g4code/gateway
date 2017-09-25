@@ -31,7 +31,7 @@ class FullRequestInfoTest extends PHPUnit_Framework_TestCase
     public function testGetResponseBody()
     {
         $this->assertEquals(
-            'https://www.hotincontri.it/hostedpage/rocketpay?id=43069085&merch=14657804&amount=2.44&method=CC&purchase=FALSE&email=test55@40test.com',
+            'http://google.com',
             $this->responseFactory()->getResponseBody()
         );
     }
@@ -122,7 +122,7 @@ class FullRequestInfoTest extends PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getBody')
             ->willReturn(
-                'https://www.hotincontri.it/hostedpage/rocketpay?id=43069085&merch=14657804&amount=2.44&method=CC&purchase=FALSE&email=test55@40test.com'
+                'http://google.com'
             );
 
         return $httpGatewayResponseMock;
