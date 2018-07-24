@@ -3,6 +3,7 @@
 use G4\Gateway\Http;
 use G4\Gateway\Options;
 use G4\Gateway\HttpMethod;
+use G4\Gateway\LoggerInterface;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,17 +22,24 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     private $optionsMock;
 
+    private $loggerInterfaceMock;
+
     protected function setUp()
     {
-        $this->optionsMock = $this->getMockBuilder('\G4\Gateway\Options')
+        $this->optionsMock = $this->getMockBuilder(Options::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->loggerInterfaceMock = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     protected function tearDown()
     {
-        $this->optionsMock  = null;
-        $this->complexHttp  = null;
+        $this->optionsMock         = null;
+        $this->complexHttp         = null;
+        $this->loggerInterfaceMock = null;
     }
 
     public function testDelete()
@@ -179,6 +187,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $http = new Http('http://google.com', $this->optionsMock);
         $this->assertEquals('http://google.com', $http->getUri());
+    }
+
+    public function testHasLog()
+    {
+        $http = new Http('http://google.com', $this->optionsMock);
+        $this->assertFalse($http->hasLogger());
+
+        $http->setLogger($this->loggerInterfaceMock);
+        $this->assertTrue($http->hasLogger());
     }
 
     private function setComplexHttpMock()

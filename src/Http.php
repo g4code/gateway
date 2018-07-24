@@ -7,6 +7,8 @@ use G4\Gateway\Client\HttpClientInterface;
 
 class Http
 {
+    const HTTP_GATEWAY_RESPONSE = 'HTTP_GATEWAY_RESPONSE';
+
     /**
      * @var string
      */
@@ -31,6 +33,11 @@ class Http
      * @var string
      */
     private $serviceName;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * Http constructor.
@@ -145,12 +152,42 @@ class Http
     }
 
     /**
+     * @param LoggerInterface $logger
+     * @return $this
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLogger()
+    {
+        return $this->logger instanceof LoggerInterface;
+    }
+
+    /**
      * @param $methodName
      * @return $this
      */
     private function setMethodName($methodName)
     {
         $this->methodName = $methodName;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    private function log()
+    {
+        $this->logger->log(
+            $this->makeFullRequestInfo(),
+            self::HTTP_GATEWAY_RESPONSE
+        );
         return $this;
     }
 
@@ -166,6 +203,10 @@ class Http
 
         $response       = $client->send($url, $method);
         $this->response = new Response($response);
+
+        if ($this->hasLogger()) {
+            $this->log();
+        }
 
         return $this->response;
     }
