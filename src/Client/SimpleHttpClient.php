@@ -10,6 +10,7 @@ use G4\ValueObject\IntegerNumber;
 
 class SimpleHttpClient implements HttpClientInterface
 {
+
     /**
      * @var Options
      */
@@ -40,7 +41,7 @@ class SimpleHttpClient implements HttpClientInterface
      */
     public function getProfiler()
     {
-        if (! $this->profiler instanceof Ticker) {
+        if (!$this->profiler instanceof Ticker) {
             $this->profiler = Ticker::getInstance();
         }
         return $this->profiler;
@@ -54,20 +55,11 @@ class SimpleHttpClient implements HttpClientInterface
      */
     public function send(Url $url, HttpMethod $method)
     {
-        $uniqueId   = $this->getProfiler()->start();
-        $curl       = curl_init();
-        $uri        = $url->getUri();
+        $uniqueId = $this->getProfiler()->start();
+        $curl     = curl_init();
+        $uri      = $url->getUri();
 
-        curl_setopt_array($curl, [
-            CURLOPT_URL             => $uri,
-            CURLOPT_CUSTOMREQUEST   => $method,
-            CURLOPT_HTTPHEADER      => $this->getHeaders(),
-            CURLOPT_POSTFIELDS      => $this->options->isSendParamsArrayType() ? $url->getParams()->toArray() : $url->getParams()->toJson(),
-            CURLOPT_VERBOSE         => true,
-            CURLINFO_HEADER_OUT     => true,
-            CURLOPT_RETURNTRANSFER  => true,
-
-        ]);
+        curl_setopt_array($curl, $this->getCurlOptions($url, $method));
 
         $response        = curl_exec($curl);
         $error           = curl_error($curl);
@@ -75,24 +67,24 @@ class SimpleHttpClient implements HttpClientInterface
         $curlErrorNumber = curl_errno($curl);
 
         $responseType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-        if(in_array($responseType, $this->imageTypes)){
+        if (in_array($responseType, $this->imageTypes)) {
             $response = $responseType;
         }
 
         curl_close($curl);
 
         $this->getProfiler()
-            ->setUrl($uniqueId, $uri)
-            ->setMethod($uniqueId, (string) $method)
-            ->setParams($uniqueId, $url->getParams()->toArray())
-            ->end($uniqueId);
+             ->setUrl($uniqueId, $uri)
+             ->setMethod($uniqueId, (string) $method)
+             ->setParams($uniqueId, $url->getParams()->toArray())
+             ->end($uniqueId);
 
         if ($curlErrorNumber == 0) {
             return (new SimpleResponse($response, new IntegerNumber($code), $url))
                 ->setHeaders($url->getParams()->toArray());
         }
 
-        throw new \Exception('Curl error: '. $error, 500);
+        throw new \Exception('Curl error: ' . $error, 500);
     }
 
     /**
@@ -101,12 +93,38 @@ class SimpleHttpClient implements HttpClientInterface
     public function getHeaders()
     {
         $headers = [];
-        if(!empty($this->options->getHeaders())) {
-            foreach($this->options->getHeaders() as $key => $value) {
-                $headers[] = $key.': '.$value;
+        if (!empty($this->options->getHeaders())) {
+            foreach ($this->options->getHeaders() as $key => $value) {
+                $headers[] = $key . ': ' . $value;
             }
         }
 
         return $headers;
+    }
+
+    /**
+     * @param Url $url
+     * @param HttpMethod $method
+     * @return array
+     */
+    private function getCurlOptions(Url $url, HttpMethod $method)
+    {
+        $options = [
+            CURLOPT_URL            => $url->getUri(),
+            CURLOPT_CUSTOMREQUEST  => (string) $method,
+            CURLOPT_HTTPHEADER     => $this->getHeaders(),
+            CURLOPT_VERBOSE        => true,
+            CURLINFO_HEADER_OUT    => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS     => $this->options->isSendParamsArrayType()
+                ? http_build_query($url->getParams()->toArray())
+                : $url->getParams()->toJson(),
+        ];
+
+        if ((string) $method === 'GET') {
+            $options[CURLOPT_URL] = $url->getUri() . '?' . http_build_query($url->getParams()->toArray());
+        }
+
+        return $options;
     }
 }

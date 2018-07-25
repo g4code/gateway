@@ -71,7 +71,7 @@ class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $urlMock
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getUri')
             ->willReturn($this->urlValue);
 
