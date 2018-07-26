@@ -114,15 +114,16 @@ class SimpleHttpClient implements HttpClientInterface
             CURLOPT_CUSTOMREQUEST  => (string) $method,
             CURLOPT_HTTPHEADER     => $this->getHeaders(),
             CURLOPT_VERBOSE        => true,
-            CURLINFO_HEADER_OUT    => true,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS     => $this->options->isSendParamsArrayType()
-                ? http_build_query($url->getParams()->toArray())
-                : $url->getParams()->toJson(),
+            CURLINFO_HEADER_OUT    => true
         ];
 
-        if ((string) $method === 'GET') {
+        if ($method->isGet()) {
             $options[CURLOPT_URL] = $url->getUri() . '?' . http_build_query($url->getParams()->toArray());
+        } else {
+            $options[CURLOPT_POSTFIELDS] = $this->options->isSendParamsArrayType()
+                ? http_build_query($url->getParams()->toArray())
+                : $url->getParams()->toJson();
         }
 
         return $options;

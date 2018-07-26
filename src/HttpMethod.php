@@ -5,11 +5,11 @@ namespace G4\Gateway;
 class HttpMethod
 {
 
-    const GET       = 'GET';
-    const PATCH     = 'PATCH';
-    const POST      = 'POST';
-    const PUT       = 'PUT';
-    const DELETE    = 'DELETE';
+    const GET    = 'GET';
+    const PATCH  = 'PATCH';
+    const POST   = 'POST';
+    const PUT    = 'PUT';
+    const DELETE = 'DELETE';
 
     /**
      * @var string
@@ -21,7 +21,7 @@ class HttpMethod
      */
     public function __construct($value)
     {
-        if (! $this->isValid($value)) {
+        if (!$this->isValid($value)) {
             throw new \Exception('Http method is not valid', 101);
         }
 
@@ -48,6 +48,14 @@ class HttpMethod
     }
 
     /**
+     * @return bool
+     */
+    public function isGet()
+    {
+        return $this->value === self::GET;
+    }
+
+    /**
      * @param $value
      * @return bool
      */
@@ -61,5 +69,4 @@ class HttpMethod
             self::PUT,
         ]);
     }
-
 }
