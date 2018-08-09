@@ -118,11 +118,15 @@ class SimpleHttpClient implements HttpClientInterface
             CURLINFO_HEADER_OUT    => true
         ];
 
+        $queryParams = http_build_query($url->getParams()->toArray());
         if ($method->isGet()) {
-            $options[CURLOPT_URL] = $url->getUri() . '?' . http_build_query($url->getParams()->toArray());
+            $queryPart = empty($queryParams)
+                ? ''
+                : "?$queryParams";
+            $options[CURLOPT_URL] = $url->getUri() . $queryPart;
         } else {
             $options[CURLOPT_POSTFIELDS] = $this->options->isSendParamsArrayType()
-                ? http_build_query($url->getParams()->toArray())
+                ? $queryParams
                 : $url->getParams()->toJson();
         }
 
