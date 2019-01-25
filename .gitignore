@@ -11,6 +11,7 @@ vendor
 
 tests/unit/coverage/*
 
+.DS_Store
 .buildpath
 .project
 .settings/*
