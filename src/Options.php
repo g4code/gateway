@@ -36,6 +36,10 @@ class Options
      */
     private $timeout;
 
+    /**
+     * @var array
+     */
+    private $auth;
 
     public function __construct()
     {
@@ -70,6 +74,14 @@ class Options
         return $this->timeout === null
             ? self::DEFAULT_TIMEOUT
             : $this->timeout;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAuth()
+    {
+        return $this->auth;
     }
 
     /**
@@ -152,6 +164,20 @@ class Options
     public function useSendParamsJsonType()
     {
         $this->sendParamsType = self::SEND_PARAMS_JSON_TYPE;
+        return $this;
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     * @return $this
+     */
+    public function setBasicAuth($username, $password)
+    {
+        $this->auth = [
+            'username' => $username,
+            'password' => $password,
+        ];
         return $this;
     }
 }

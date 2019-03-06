@@ -118,7 +118,10 @@ class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
         $methodMock = $this->getMockBuilder('\G4\Gateway\HttpMethod')
             ->disableOriginalConstructor()
             ->getMock();
-
+        $methodMock
+            ->expects($this->any())
+            ->method('isGet')
+            ->willReturn(true);
         return $methodMock;
     }
 }
