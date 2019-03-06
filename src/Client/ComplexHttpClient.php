@@ -52,6 +52,10 @@ class ComplexHttpClient implements HttpClientInterface
                 ]);
 
             $this->client->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
+
+            if ($auth = $this->options->getAuth()) {
+                $this->client->setAuth($auth['username'], $auth['password']);
+            }
         }
 
         return $this->client;
