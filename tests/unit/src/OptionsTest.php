@@ -73,11 +73,13 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
     {
         $this->options->useSendParamsArrayType();
         $this->assertTrue($this->options->isSendParamsArrayType());
+        $this->assertFalse($this->options->isSendParamsJsonType());
     }
 
     public function testUseSendParamsJsonType()
     {
         $this->options->useSendParamsJsonType();
+        $this->assertTrue($this->options->isSendParamsJsonType());
         $this->assertFalse($this->options->isSendParamsArrayType());
     }
 }

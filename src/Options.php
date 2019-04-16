@@ -150,6 +150,14 @@ class Options
     }
 
     /**
+     * @return bool
+     */
+    public function isSendParamsJsonType()
+    {
+        return $this->sendParamsType == self::SEND_PARAMS_JSON_TYPE;
+    }
+
+    /**
      * @return $this
      */
     public function useSendParamsArrayType()
