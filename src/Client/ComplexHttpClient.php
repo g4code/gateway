@@ -84,9 +84,17 @@ class ComplexHttpClient implements HttpClientInterface
         $params     = $url->getParams()->toArray();
         $httpMethod = (string) $method;
 
-        $method->isPost()
-            ? $this->getClient()->setParameterPost($params)
-            : $this->getClient()->setParameterGet($params);
+        $isPost = $method->isPost();
+        if ($isPost) {
+            $this->getClient()->setParameterPost($params);
+
+            if ($this->options->isSendParamsJsonType()) {
+                $this->getClient()->setRawBody(json_encode($params));
+            }
+        }
+        if (!$isPost) {
+            $this->getClient()->setParameterGet($params);
+        }
 
         $this->getClient()
             ->setUri($uri)
