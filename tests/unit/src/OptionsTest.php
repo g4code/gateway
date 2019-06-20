@@ -36,6 +36,15 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->options->getSslVerifyPeer());
     }
 
+    public function testCurlOptUserAgent()
+    {
+        $this->assertEquals(null, $this->options->getCurlOptUserAgent());
+        $this->assertFalse($this->options->hasCurlOptUserAgent());
+        $this->options->setCurlOptUserAgent('UserAgent');
+        $this->assertTrue($this->options->hasCurlOptUserAgent());
+        $this->assertEquals('UserAgent', $this->options->getCurlOptUserAgent());
+    }
+
     public function testTimeout()
     {
         $this->assertEquals(Options::DEFAULT_TIMEOUT, $this->options->getTimeout());

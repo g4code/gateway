@@ -130,6 +130,10 @@ class SimpleHttpClient implements HttpClientInterface
                 : $url->getParams()->toJson();
         }
 
+        if ($this->options->hasCurlOptUserAgent()) {
+            $options[CURLOPT_USERAGENT] = $this->options->getCurlOptUserAgent();
+        }
+
         return $options;
     }
 }

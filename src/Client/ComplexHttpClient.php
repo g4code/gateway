@@ -46,9 +46,7 @@ class ComplexHttpClient implements HttpClientInterface
                 ->setEncType(\Zend\Http\Client::ENC_URLENCODED)
                 ->setOptions([
                     'timeout' => $this->options->getTimeout(),
-                    'curloptions' => [
-                        CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()
-                    ],
+                    'curloptions' => $this->getCurlOptions(),
                 ]);
 
             $this->client->getRequest()->getHeaders()->addHeaders($this->options->getHeaders());
@@ -108,5 +106,21 @@ class ComplexHttpClient implements HttpClientInterface
             ->end($uniqueId);
 
         return new ComplexResponse($this->getClient()->getResponse(), $url);
+    }
+
+    /**
+     * @return array
+     */
+    private function getCurlOptions()
+    {
+        $curlOptions = [
+            CURLOPT_SSL_VERIFYPEER => $this->options->getSslVerifyPeer()
+        ];
+
+        if ($this->options->hasCurlOptUserAgent()) {
+            $curlOptions[CURLOPT_USERAGENT] = $this->options->getCurlOptUserAgent();
+        }
+
+        return $curlOptions;
     }
 }
