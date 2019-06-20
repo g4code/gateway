@@ -27,6 +27,11 @@ class Options
     private $sslVerifyPeer;
 
     /**
+     * @var boolean
+     */
+    private $sslVerifyHost;
+
+    /**
      * @var string
      */
     private $sendParamsType;
@@ -40,6 +45,11 @@ class Options
      * @var array
      */
     private $auth;
+
+    /**
+     * @var string
+     */
+    private $curlOptUserAgent;
 
     public function __construct()
     {
@@ -66,6 +76,11 @@ class Options
             : true;
     }
 
+    public function getCurlOptUserAgent()
+    {
+        return $this->curlOptUserAgent;
+    }
+
     /**
      * @return int
      */
@@ -82,6 +97,14 @@ class Options
     public function getAuth()
     {
         return $this->auth;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCurlOptUserAgent()
+    {
+        return $this->curlOptUserAgent !== null;
     }
 
     /**
@@ -112,6 +135,12 @@ class Options
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
+        return $this;
+    }
+
+    public function setCurlOptUserAgent($value)
+    {
+        $this->curlOptUserAgent = $value;
         return $this;
     }
 
