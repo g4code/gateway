@@ -115,7 +115,8 @@ class SimpleHttpClient implements HttpClientInterface
             CURLOPT_HTTPHEADER     => $this->getHeaders(),
             CURLOPT_VERBOSE        => true,
             CURLOPT_RETURNTRANSFER => true,
-            CURLINFO_HEADER_OUT    => true
+            CURLINFO_HEADER_OUT    => true,
+            CURLOPT_TIMEOUT        => $this->options->getTimeout()
         ];
 
         $queryParams = http_build_query($url->getParams()->toArray());
