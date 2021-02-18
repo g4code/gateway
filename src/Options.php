@@ -51,6 +51,11 @@ class Options
      */
     private $curlOptUserAgent;
 
+    /**
+     * @var boolean
+     */
+    private $allowRedirection;
+
     public function __construct()
     {
         $this->headers = [];
@@ -102,6 +107,14 @@ class Options
     /**
      * @return bool
      */
+    public function getAllowRedirection()
+    {
+        return $this->allowRedirection;
+    }
+
+    /**
+     * @return bool
+     */
     public function hasCurlOptUserAgent()
     {
         return $this->curlOptUserAgent !== null;
@@ -141,6 +154,16 @@ class Options
     public function setCurlOptUserAgent($value)
     {
         $this->curlOptUserAgent = $value;
+        return $this;
+    }
+
+    /**
+     * @param $value
+     * @return $this
+     */
+    public function setAllowRedirection($value)
+    {
+        $this->allowRedirection = $value;
         return $this;
     }
 
@@ -216,5 +239,13 @@ class Options
             'password' => $password,
         ];
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAllowRedirection()
+    {
+        return $this->allowRedirection !== null;
     }
 }

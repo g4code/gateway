@@ -91,4 +91,13 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->options->isSendParamsJsonType());
         $this->assertFalse($this->options->isSendParamsArrayType());
     }
+
+    public function testAllowRedirect()
+    {
+        $this->assertEquals(null, $this->options->getAllowRedirection());
+        $this->assertFalse($this->options->hasAllowRedirection());
+        $this->options->setAllowRedirection(true);
+        $this->assertTrue($this->options->hasAllowRedirection());
+        $this->assertEquals(true, $this->options->getAllowRedirection());
+    }
 }
