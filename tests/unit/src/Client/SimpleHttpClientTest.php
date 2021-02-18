@@ -54,7 +54,7 @@ class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
 
     public function testSendException()
     {
-        $this->urlValue = 'tetete.com';
+        $this->urlValue = 'fake-test-something-90274.com';
         $this->setExpectedException('\Exception');
         $this->client->send($this->urlMock(), $this->methodMock());
     }
