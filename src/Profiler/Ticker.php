@@ -6,6 +6,7 @@ class Ticker extends \G4\Profiler\Ticker\TickerAbstract
 {
 
     const NAME = 'gateway';
+    const TYPE = 'gateway';
 
     private static $instance;
 
@@ -39,6 +40,11 @@ class Ticker extends \G4\Profiler\Ticker\TickerAbstract
     public function getName()
     {
         return self::NAME;
+    }
+
+    public function getType()
+    {
+        return self::TYPE;
     }
 
     /**
