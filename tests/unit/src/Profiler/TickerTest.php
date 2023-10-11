@@ -2,7 +2,7 @@
 
 use G4\Gateway\Profiler\Ticker;
 
-class TickerTest extends \PHPUnit_Framework_TestCase
+class TickerTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -10,12 +10,12 @@ class TickerTest extends \PHPUnit_Framework_TestCase
      */
     private $ticker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->ticker = Ticker::getInstance();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->ticker = null;
     }

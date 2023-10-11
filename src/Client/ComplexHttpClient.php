@@ -10,7 +10,7 @@ use G4\Gateway\Profiler\Ticker;
 class ComplexHttpClient implements HttpClientInterface
 {
     /**
-     * @var \Zend\Http\Client
+     * @var \Laminas\Http\Client
      */
     private $client;
 
@@ -34,16 +34,16 @@ class ComplexHttpClient implements HttpClientInterface
     }
 
     /**
-     * @return \Zend\Http\Client
+     * @return \Laminas\Http\Client
      */
     public function getClient()
     {
-        if (! $this->client instanceof \Zend\Http\Client) {
+        if (! $this->client instanceof \Laminas\Http\Client) {
 
-            $this->client = new \Zend\Http\Client();
+            $this->client = new \Laminas\Http\Client();
             $this->client
-                ->setAdapter('\Zend\Http\Client\Adapter\Curl')
-                ->setEncType(\Zend\Http\Client::ENC_URLENCODED)
+                ->setAdapter('\Laminas\Http\Client\Adapter\Curl')
+                ->setEncType(\Laminas\Http\Client::ENC_URLENCODED)
                 ->setOptions([
                     'timeout' => $this->options->getTimeout(),
                     'curloptions' => $this->getCurlOptions(),

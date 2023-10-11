@@ -2,7 +2,7 @@
 
 use G4\Gateway\Options;
 
-class OptionsTest extends \PHPUnit_Framework_TestCase
+class OptionsTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -10,12 +10,12 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
      */
     private $options;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->options = new Options();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->options = null;
     }

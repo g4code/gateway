@@ -11,6 +11,7 @@ composer.lock
 vendor
 
 tests/unit/coverage/*
+tests/unit/.phpunit.result.cache
 
 .DS_Store
 .buildpath

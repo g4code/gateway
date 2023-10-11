@@ -3,7 +3,7 @@
 namespace G4\Gateway\Client;
 
 use G4\Gateway\Url;
-use Zend\Http\Response as ClientResponse;
+use Laminas\Http\Response as ClientResponse;
 
 class ComplexResponse implements ClientResponseInterface
 {

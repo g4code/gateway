@@ -6,7 +6,7 @@ use G4\Gateway\HttpMethod;
 use G4\Gateway\FullRequestInfo;
 use G4\Gateway\Response as HttpResponse;
 
-class FullRequestInfoTest extends PHPUnit_Framework_TestCase
+class FullRequestInfoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Http
@@ -15,14 +15,14 @@ class FullRequestInfoTest extends PHPUnit_Framework_TestCase
 
     private $optionsMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->optionsMock = $this->getMockBuilder('\G4\Gateway\Options')
             ->disableOriginalConstructor()
             ->getMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->optionsMock = null;
         $this->http        = null;

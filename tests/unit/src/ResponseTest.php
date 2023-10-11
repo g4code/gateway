@@ -2,16 +2,16 @@
 
 use G4\Gateway\Response;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $clientComplexResponseMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $clientSimpleResponseMock;
 
@@ -25,7 +25,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     private $simpleResponse;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clientComplexResponseMock = $this->getMockBuilder('\G4\Gateway\Client\ComplexResponse')
             ->disableOriginalConstructor()
@@ -39,7 +39,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->simpleResponse  = new Response($this->clientSimpleResponseMock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->clientComplexResponseMock    = null;
         $this->clientSimpleResponseMock     = null;

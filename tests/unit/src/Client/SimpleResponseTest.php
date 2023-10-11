@@ -4,7 +4,7 @@ use G4\Gateway\Url;
 use G4\ValueObject\IntegerNumber;
 use G4\Gateway\Client\SimpleResponse;
 
-class SimpleResponseTest extends PHPUnit_Framework_TestCase
+class SimpleResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SimpleResponse
@@ -12,7 +12,7 @@ class SimpleResponseTest extends PHPUnit_Framework_TestCase
     private $response;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $urlMock;
 
@@ -26,7 +26,7 @@ class SimpleResponseTest extends PHPUnit_Framework_TestCase
      */
     private $statusCodeMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->urlMock = $this->getMockBuilder(Url::class)
             ->disableOriginalConstructor()
@@ -49,7 +49,7 @@ class SimpleResponseTest extends PHPUnit_Framework_TestCase
         $this->response = new SimpleResponse($this->body, $this->statusCodeMock, $this->urlMock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->urlMock          = null;
         $this->statusCodeMock   = null;
