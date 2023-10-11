@@ -2,7 +2,7 @@
 
 use G4\Gateway\Client\ComplexHttpClient;
 
-class ComplexHttpClientTest extends PHPUnit_Framework_TestCase
+class ComplexHttpClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ComplexHttpClient
@@ -10,14 +10,14 @@ class ComplexHttpClientTest extends PHPUnit_Framework_TestCase
     private $client;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $optionsMock;
     private $urlValue       = 'http://google.com';
     private $methodValue    = 'GET';
     private $paramsValue    = ['id' => 123];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->optionsMock = $this->getMockBuilder('\G4\Gateway\Options')
             ->disableOriginalConstructor()
@@ -35,7 +35,7 @@ class ComplexHttpClientTest extends PHPUnit_Framework_TestCase
         $this->client = new ComplexHttpClient($this->optionsMock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->optionsMock = null;
         $this->client      = null;

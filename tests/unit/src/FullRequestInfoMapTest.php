@@ -3,7 +3,7 @@
 use G4\Gateway\FullRequestInfo;
 use G4\Gateway\FullRequestInfoMap;
 
-class FullRequestInfoMapTest extends PHPUnit_Framework_TestCase
+class FullRequestInfoMapTest extends \PHPUnit\Framework\TestCase
 {
 
     private $fullRequestInfoMock;
@@ -16,7 +16,7 @@ class FullRequestInfoMapTest extends PHPUnit_Framework_TestCase
     private $responseHeaders = ['response' => 'something'];
     private $responseBody = 'success';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->fullRequestInfoMock = $this->getMockBuilder(FullRequestInfo::class)
             ->disableOriginalConstructor()
@@ -30,7 +30,7 @@ class FullRequestInfoMapTest extends PHPUnit_Framework_TestCase
         $this->fullRequestInfoMock->expects($this->once())->method('getResponseBody')->willReturn($this->responseBody);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->fullRequestInfoMock = null;
     }

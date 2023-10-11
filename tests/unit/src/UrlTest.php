@@ -2,11 +2,11 @@
 
 use G4\Gateway\Url;
 
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $paramsMock;
 
@@ -15,7 +15,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     private $url;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->paramsMock = $this->getMockBuilder('\G4\Gateway\Params')
             ->disableOriginalConstructor()
@@ -24,7 +24,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->url = new Url('http://google.com', 'service', $this->paramsMock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->paramsMock = null;
         $this->url = null;
@@ -68,7 +68,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testIfUriIsNotAString()
     {
-        $this->setExpectedException('\Exception', 'Uri is not a string!', 101);
+        $this->expectException('\Exception', 'Uri is not a string!', 101);
 
         new Url(123, null, $this->paramsMock);
     }

@@ -2,7 +2,7 @@
 
 use G4\Gateway\HttpMethod;
 
-class HttpMethodTest extends \PHPUnit_Framework_TestCase
+class HttpMethodTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -10,12 +10,12 @@ class HttpMethodTest extends \PHPUnit_Framework_TestCase
      */
     private $httpMethod;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->httpMethod = new HttpMethod(HttpMethod::PUT);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->httpMethod = null;
     }
@@ -34,7 +34,7 @@ class HttpMethodTest extends \PHPUnit_Framework_TestCase
 
     public function testException()
     {
-        $this->setExpectedException('\Exception', 'Http method is not valid', 101);
+        $this->expectException('\Exception', 'Http method is not valid', 101);
 
         new HttpMethod('not_a_method');
     }

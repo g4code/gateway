@@ -6,10 +6,10 @@ use Laminas\Http\AbstractMessage;
 use G4\Gateway\Client\ComplexResponse;
 use Laminas\Http\Response as ClientResponse;
 
-class ComplexResponseTest extends PHPUnit_Framework_TestCase
+class ComplexResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $clientResponseMock;
 
@@ -19,16 +19,16 @@ class ComplexResponseTest extends PHPUnit_Framework_TestCase
     private $response;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $headersMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $urlMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clientResponseMock = $this->getMockBuilder(ClientResponse::class)
             ->disableOriginalConstructor()
@@ -45,7 +45,7 @@ class ComplexResponseTest extends PHPUnit_Framework_TestCase
         $this->response = new ComplexResponse($this->clientResponseMock, $this->urlMock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->clientResponseMock   = null;
         $this->urlMock              = null;

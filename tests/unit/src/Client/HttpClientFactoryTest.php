@@ -3,19 +3,19 @@
 use G4\Gateway\Options;
 use G4\Gateway\Client\HttpClientFactory;
 
-class HttpClientFactoryTest extends PHPUnit_Framework_TestCase
+class HttpClientFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Options
      */
     private $options;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->options = new Options();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->options = null;
     }

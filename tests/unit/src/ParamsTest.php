@@ -2,7 +2,7 @@
 
 use G4\Gateway\Params;
 
-class ParamsTest extends \PHPUnit_Framework_TestCase
+class ParamsTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -15,7 +15,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
      */
     private $params;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->data = [
             'id' => 123,
@@ -24,7 +24,7 @@ class ParamsTest extends \PHPUnit_Framework_TestCase
         $this->params = new Params($this->data);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->data = null;
         $this->params = null;

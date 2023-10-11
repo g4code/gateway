@@ -2,7 +2,7 @@
 
 use G4\Gateway\Profiler\Formatter;
 
-class FormatterTest extends \PHPUnit_Framework_TestCase
+class FormatterTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -10,7 +10,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     private $formatter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $timerMock = $this->getMockBuilder('\G4\Profiler\Ticker\Timer')
             ->disableOriginalConstructor()
@@ -38,7 +38,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             ->willReturn($timerMock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->formatter = null;
     }

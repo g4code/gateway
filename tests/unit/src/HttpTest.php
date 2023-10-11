@@ -5,7 +5,7 @@ use G4\Gateway\Options;
 use G4\Gateway\HttpMethod;
 use G4\Gateway\LoggerInterface;
 
-class HttpTest extends \PHPUnit_Framework_TestCase
+class HttpTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Http
@@ -24,7 +24,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     private $loggerInterfaceMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->optionsMock = $this->getMockBuilder(Options::class)
             ->disableOriginalConstructor()
@@ -35,7 +35,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->getMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->optionsMock         = null;
         $this->complexHttp         = null;

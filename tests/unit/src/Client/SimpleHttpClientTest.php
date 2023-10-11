@@ -5,7 +5,7 @@ use G4\Gateway\Client\SimpleHttpClient;
 use G4\Gateway\Params;
 use G4\Gateway\Options;
 
-class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
+class SimpleHttpClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SimpleHttpClient
@@ -25,7 +25,7 @@ class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
 
     private $urlValue = 'https://www.google.com';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->optionsMock = $this->getMockBuilder('\G4\Gateway\Options')
         ->disableOriginalConstructor()
@@ -38,7 +38,7 @@ class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
         $this->client = new SimpleHttpClient($this->optionsMock);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->client       = null;
         $this->optionsMock  = null;
@@ -55,7 +55,7 @@ class SimpleHttpClientTest extends PHPUnit_Framework_TestCase
     public function testSendException()
     {
         $this->urlValue = 'fake-test-something-90274.com';
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $this->client->send($this->urlMock(), $this->methodMock());
     }
 
