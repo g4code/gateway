@@ -1,10 +1,10 @@
 <?php
 
 use G4\Gateway\Url;
-use Zend\Http\Headers;
-use Zend\Http\AbstractMessage;
+use Laminas\Http\Headers;
+use Laminas\Http\AbstractMessage;
 use G4\Gateway\Client\ComplexResponse;
-use Zend\Http\Response as ClientResponse;
+use Laminas\Http\Response as ClientResponse;
 
 class ComplexResponseTest extends PHPUnit_Framework_TestCase
 {

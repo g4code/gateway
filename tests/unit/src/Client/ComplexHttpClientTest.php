@@ -58,7 +58,7 @@ class ComplexHttpClientTest extends PHPUnit_Framework_TestCase
                 ->method('getHeaders')
                 ->willReturn([]);
 
-        $this->assertInstanceOf('\Zend\Http\Client', $this->client->getClient());
+        $this->assertInstanceOf('\Laminas\Http\Client', $this->client->getClient());
     }
 
     public function testGetProfiler()
