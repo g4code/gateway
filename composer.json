@@ -31,10 +31,10 @@
         "phpunit/phpunit": "9.*"
     },
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.2",
         "g4/constants": "*",
         "g4/profiler": ">=1.10.0",
-        "laminas/laminas-http": "2.14.*",
+        "laminas/laminas-http": "2.18.*",
         "g4/value-object": "*"
     }
 }
