@@ -17,6 +17,8 @@ class ComplexResponse implements ClientResponseInterface
      */
     private $url;
 
+    private $body;
+
     /**
      * ComplexResponse constructor.
      * @param ClientResponse $clientResponse
@@ -36,7 +38,7 @@ class ComplexResponse implements ClientResponseInterface
         if (!isset($this->body)) {
             $body       = $this->clientResponse->getBody();
             $decoded    = json_decode($body, true);
-            $this->body = $decoded ? $decoded : $body;
+            $this->body = $decoded ?: $body;
         }
         return $this->body;
     }
@@ -80,9 +82,7 @@ class ComplexResponse implements ClientResponseInterface
     public function getResource($key)
     {
         $body = $this->getBody();
-        return isset($body[$key])
-            ? $body[$key]
-            : null;
+        return $body[$key] ?? null;
     }
 
     /**
