@@ -48,7 +48,7 @@ class SimpleHttpClientTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertInstanceOf(
             'G4\Gateway\Client\SimpleResponse',
-            $this->client->send($this->urlMock(), $this->methodMock())
+            $this->client->send($this->urlMock(), new \G4\Gateway\HttpMethod('GET'))
         );
     }
 

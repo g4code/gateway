@@ -35,6 +35,8 @@
         "g4/constants": "*",
         "g4/profiler": ">=1.10.0",
         "laminas/laminas-http": "2.18.*",
-        "g4/value-object": "*"
+        "g4/value-object": "*",
+        "ext-curl": "*",
+        "ext-json": "*"
     }
 }

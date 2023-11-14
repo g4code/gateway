@@ -27,14 +27,14 @@ class Url
      * @param Params $params
      * @throws \Exception
      */
-    public function __construct($uri, $serviceName = null, Params $params)
+    public function __construct($uri, $serviceName = null, Params $params = null)
     {
         if (empty($uri) || !is_string($uri)) {
-            throw new \Exception('Uri is not a string!', 101);
+            throw new \InvalidArgumentException('Uri is not a string!', 101);
         }
         $this->uri         = $uri;
         $this->serviceName = $serviceName;
-        $this->params      = $params;
+        $this->params      = $params instanceof Params ? $params : new Params();
     }
 
     public function __toString()
