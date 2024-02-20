@@ -34,7 +34,7 @@
         "php": ">=8.2",
         "g4/constants": "*",
         "g4/profiler": ">=1.10.0",
-        "laminas/laminas-http": "2.18.*",
+        "laminas/laminas-http": "2.19.*",
         "g4/value-object": "*",
         "ext-curl": "*",
         "ext-json": "*"
